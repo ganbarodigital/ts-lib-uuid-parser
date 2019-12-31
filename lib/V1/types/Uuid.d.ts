@@ -8,5 +8,5 @@ export declare class Uuid {
 /**
  * A type-guard to make sure that you're dealing with a type-safe Uuid
  */
-export declare function IsUuid(input: any): input is Uuid;
+export declare function isUuid(input: any): input is Uuid;
 //# sourceMappingURL=Uuid.d.ts.map
