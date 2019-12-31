@@ -1,0 +1,52 @@
+{
+  "name": "ts-uuid-parser",
+  "version": "0.0.1",
+  "description": "Converts human-readable UUIDs to bytes",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ganbarodigital/ts-uuid-parser.git"
+  },
+  "main": "V1/index.js",
+  "types": "V1/index.d.ts",
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "prepare": "node_modules/.bin/tsc",
+    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts \"lib/**/*.spec.ts\"",
+    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts",
+    "clean": "find lib -name '*.js' | xargs rm && find lib -name '*.js.map' | xargs rm",
+    "postinstall": "npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^13.1.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.5.0",
+    "jasmine": "^3.5.0",
+    "jasmine-ts": "^0.3.0",
+    "jasmine-ts-console-reporter": "^3.1.1",
+    "nyc": "^15.0.0",
+    "ts-node": "<8.0.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "**/*.spec.js",
+      "coverage/**",
+      "spec/**"
+    ],
+    "reporter": [
+      "json",
+      "html",
+      "text"
+    ],
+    "all": false
+  }
+}
