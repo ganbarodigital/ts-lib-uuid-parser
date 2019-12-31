@@ -2,6 +2,10 @@
 
 ## develop
 
+## v0.0.1
+
+Released Tuesday, 31st December 2019.
+
 ### New
 
 * Added `Uuid` type
