@@ -9,14 +9,15 @@
   "main": "lib/V1/index.js",
   "types": "lib/V1/index.d.ts",
   "scripts": {
-    "build": "node_modules/.bin/tsc",
-    "prepare": "node_modules/.bin/tsc",
-    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts \"lib/**/*.spec.ts\"",
-    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts",
-    "clean": "find lib -name '*.js' | xargs rm && find lib -name '*.js.map' | xargs rm",
+    "build": "tsc",
+    "prepare": "tsc",
+    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "clean": "find src -name '*.js' | xargs rm && find src -name '*.js.map' | xargs rm",
     "postinstall": "npm run build"
   },
   "author": "",
+  "files": [ "lib/**/*", "CHANGELOG.md", "LICENSE.md" ],
   "license": "BSD-3-Clause",
   "dependencies": {
     "@types/node": "^13.1.2",
@@ -30,23 +31,5 @@
     "jasmine-ts-console-reporter": "^3.1.1",
     "nyc": "^15.0.0",
     "ts-node": "<8.0.0"
-  },
-  "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/*.spec.ts",
-      "**/*.spec.js",
-      "coverage/**",
-      "spec/**"
-    ],
-    "reporter": [
-      "json",
-      "html",
-      "text"
-    ],
-    "all": false
   }
 }
