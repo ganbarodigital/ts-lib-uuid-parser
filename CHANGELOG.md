@@ -2,6 +2,10 @@
 
 ## develop
 
+### Fixes
+
+* `mustBe` is now exported
+
 ## v0.0.3
 
 Releaed Wednesday, 1st January 2020
