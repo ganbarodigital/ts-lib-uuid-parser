@@ -6,6 +6,7 @@
 
 * Clean up the NPM scripts
 * Do not include Jasmine's `spec` folder in the published package
+* Switch to our fork of 'jasmine-ts', solves NPM security audit issue
 
 ## v0.0.4
 
