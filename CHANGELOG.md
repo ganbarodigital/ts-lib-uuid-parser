@@ -5,6 +5,7 @@
 ### Fixes
 
 * Clean up the NPM scripts
+* Do not include Jasmine's `spec` folder in the published package
 
 ## v0.0.4
 
