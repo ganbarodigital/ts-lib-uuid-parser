@@ -2,6 +2,10 @@
 
 ## develop
 
+### Fixes
+
+* Clean up the NPM scripts
+
 ## v0.0.4
 
 Released Wednesday, 1st January 2020

@@ -13,8 +13,8 @@
     "lint": "tslint -p ./tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
-    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "test": "tsc -p ./tsconfig-test.json && jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "cover": "nyc --cache=false npm run test",
     "clean": "rm -rf lib"
   },
   "author": "",
