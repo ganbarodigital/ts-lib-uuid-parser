@@ -15,7 +15,7 @@
     "prepublishOnly": "npm test && npm run lint",
     "test": "tsc -p ./tsconfig-test.json && jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "cover": "nyc --cache=false npm run test",
-    "clean": "rm -rf lib"
+    "clean": "rimraf lib"
   },
   "author": "",
   "files": [
@@ -36,6 +36,7 @@
     "jasmine": "^3.5.0",
     "jasmine-ts-console-reporter": "^3.1.1",
     "nyc": "^15.0.0",
+    "rimraf": "^3.0.0",
     "ts-node": "<8.0.0"
   }
 }
