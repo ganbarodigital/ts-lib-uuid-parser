@@ -12,14 +12,18 @@
     "build": "tsc",
     "lint": "tslint -p ./tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
+    "prepublishOnly": "npm test && npm run lint",
     "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "clean": "find src -name '*.js' | xargs rm && find src -name '*.js.map' | xargs rm",
     "postinstall": "npm run build"
   },
   "author": "",
-  "files": [ "lib/**/*", "CHANGELOG.md", "LICENSE.md" ],
+  "files": [
+    "lib/**/*",
+    "CHANGELOG.md",
+    "LICENSE.md"
+  ],
   "license": "BSD-3-Clause",
   "dependencies": {
     "@types/node": "^13.1.2",
