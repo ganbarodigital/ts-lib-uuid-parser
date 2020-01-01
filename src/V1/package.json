@@ -1,6 +1,0 @@
-{
-    "name": "ts-uuid-parser/V1",
-    "typings": "./index.d.ts",
-    "main": "./index.js",
-    "sideEffects": false
-  }

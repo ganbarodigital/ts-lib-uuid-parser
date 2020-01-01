@@ -4,6 +4,7 @@
 
 ### Fixes
 
+* `import {} from "@ganbarodigital/ts-uuid-parser/V1` hopefully now works
 * `mustBe` is now exported
 
 ## v0.0.3
