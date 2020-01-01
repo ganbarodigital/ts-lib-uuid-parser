@@ -2,6 +2,14 @@
 
 ## develop
 
+### New
+
+* Added `npm run lint` tool
+
+### Fixes
+
+* All files now pass TSLint
+
 ## v0.0.1
 
 Released Tuesday, 31st December 2019.

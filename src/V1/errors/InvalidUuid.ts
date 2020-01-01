@@ -33,19 +33,19 @@
 //
 
 export class InvalidUuidError {
-    readonly invalidInput: string;
+    public readonly invalidInput: string;
 
     constructor(invalidInput: string) {
         this.invalidInput = invalidInput;
     }
 }
 
-export function IsInvalidUuidError (input: any) : input is InvalidUuidError {
-    if (typeof(input) !== 'object') {
+export function IsInvalidUuidError(input: any): input is InvalidUuidError {
+    if (typeof(input) !== "object") {
         return false;
     }
 
-    if(input.invalidInput === undefined) {
+    if (input.invalidInput === undefined) {
         return false;
     }
 
