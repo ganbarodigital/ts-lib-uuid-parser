@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -31,8 +30,24 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { InvalidUuidError } from "./errors/InvalidUuid";
+import { isUuid, Uuid } from "./types/Uuid";
+import { validate } from "./validate";
 
-export * from './errors'
-export * from './types'
-export * from './bytes'
-export * from './validate'
+/**
+ * throws an error if the given string is not a well-formatted UUID
+ */
+export function mustBe(input: Uuid|string): void {
+    // a UUID is always valid!
+    if (isUuid(input)) {
+        return;
+    }
+
+    if (validate(input)) {
+        return;
+    }
+
+    // if we get here, the UUID is not valid, and we will throw
+    // an error
+    throw new InvalidUuidError(input);
+}

@@ -2,6 +2,19 @@
 
 ## develop
 
+## v0.0.2
+
+Released Wednesday, 1st January 2020
+
+### New
+
+* Added `npm run lint` tool
+
+### Fixes
+
+* All files now pass TSLint
+* (Hopefully) auto-import for VSCode now works
+
 ## v0.0.1
 
 Released Tuesday, 31st December 2019.

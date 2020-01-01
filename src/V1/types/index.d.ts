@@ -1,2 +1,2 @@
-export * from './Uuid';
+export * from "./Uuid";
 //# sourceMappingURL=index.d.ts.map

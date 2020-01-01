@@ -1,23 +1,30 @@
 {
-  "name": "ts-uuid-parser",
-  "version": "0.0.1",
+  "name": "@ganbarodigital/ts-uuid-parser",
+  "version": "0.0.2",
   "description": "Converts human-readable UUIDs to bytes",
   "repository": {
     "type": "git",
     "url": "https://github.com/ganbarodigital/ts-uuid-parser.git"
   },
-  "main": "V1/index.js",
-  "types": "V1/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "build": "node_modules/.bin/tsc",
-    "prepare": "node_modules/.bin/tsc",
-    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts \"lib/**/*.spec.ts\"",
-    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts",
-    "clean": "find lib -name '*.js' | xargs rm && find lib -name '*.js.map' | xargs rm",
+    "build": "tsc",
+    "lint": "tslint -p ./tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "clean": "find src -name '*.js' | xargs rm && find src -name '*.js.map' | xargs rm",
     "postinstall": "npm run build"
   },
   "author": "",
-  "license": "ISC",
+  "files": [
+    "lib/**/*",
+    "CHANGELOG.md",
+    "LICENSE.md"
+  ],
+  "license": "BSD-3-Clause",
   "dependencies": {
     "@types/node": "^13.1.2",
     "tslint": "^5.20.1",
@@ -30,23 +37,5 @@
     "jasmine-ts-console-reporter": "^3.1.1",
     "nyc": "^15.0.0",
     "ts-node": "<8.0.0"
-  },
-  "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/*.spec.ts",
-      "**/*.spec.js",
-      "coverage/**",
-      "spec/**"
-    ],
-    "reporter": [
-      "json",
-      "html",
-      "text"
-    ],
-    "all": false
   }
 }

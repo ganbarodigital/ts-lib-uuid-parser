@@ -31,23 +31,4 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-
-export class InvalidUuidError {
-    readonly invalidInput: string;
-
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
-
-export function IsInvalidUuidError (input: any) : input is InvalidUuidError {
-    if (typeof(input) !== 'object') {
-        return false;
-    }
-
-    if(input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
-}
+export * from "./InvalidUuid";

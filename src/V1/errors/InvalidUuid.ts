@@ -32,4 +32,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-export * from "./Uuid"
+export class InvalidUuidError {
+    public readonly invalidInput: string;
+
+    constructor(invalidInput: string) {
+        this.invalidInput = invalidInput;
+    }
+}
+
+export function IsInvalidUuidError(input: any): input is InvalidUuidError {
+    if (typeof(input) !== "object") {
+        return false;
+    }
+
+    if (input.invalidInput === undefined) {
+        return false;
+    }
+
+    return true;
+}
