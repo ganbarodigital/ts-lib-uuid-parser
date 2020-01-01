@@ -31,34 +31,32 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuid, Uuid } from './Uuid';
+import { isUuid, Uuid } from "./Uuid";
 
+describe("Uuid", () => {
 
-describe("Uuid", function () {
-
-    it("accepts a well-formatted UUID string", function () {
-        let inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        let actualValue = new Uuid(inputValue);
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const actualValue = new Uuid(inputValue);
 
         expect(actualValue).toBeInstanceOf(Uuid);
     });
 });
 
-describe("isUuid()", function () {
-    it("accepts a Uuid type", function() {
-        let inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+describe("isUuid()", () => {
+    it("accepts a Uuid type", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
         expect(isUuid(inputValue)).toBeTrue();
-
     });
 
-    it("rejects other objects", function() {
-        let inputValue = {};
+    it("rejects other objects", () => {
+        const inputValue = {};
         expect(isUuid(inputValue)).toBeFalse();
 
     });
 
-    it("rejects UUID strings", function() {
-        let inputValue = "123e4567-e89b-12d3-a456-426655440000";
+    it("rejects UUID strings", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
         expect(isUuid(inputValue)).toBeFalse();
     });
 });

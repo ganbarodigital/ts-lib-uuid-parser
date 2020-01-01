@@ -31,15 +31,14 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { fromBytes, toBytes } from './bytes';
-import { Uuid } from './types/Uuid';
+import { fromBytes, toBytes } from "./bytes";
+import { Uuid } from "./types/Uuid";
 
+describe("toBytes()", () => {
 
-describe("toBytes()", function () {
-
-    it("accepts a well-formatted UUID string", function () {
-        let inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        let expectedValue = new Uint8Array(new ArrayBuffer(16));
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const expectedValue = new Uint8Array(new ArrayBuffer(16));
         expectedValue[0] = parseInt("12", 16);
         expectedValue[1] = parseInt("3e", 16);
         expectedValue[2] = parseInt("45", 16);
@@ -57,14 +56,14 @@ describe("toBytes()", function () {
         expectedValue[14] = parseInt("00", 16);
         expectedValue[14] = parseInt("00", 16);
 
-        let actualValue = new Uint8Array(toBytes(inputValue));
+        const actualValue = new Uint8Array(toBytes(inputValue));
 
         expect(actualValue).toEqual(expectedValue);
     });
 
-    it("accepts a UUID object", function () {
-        let inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        let expectedValue = new Uint8Array(new ArrayBuffer(16));
+    it("accepts a UUID object", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = new Uint8Array(new ArrayBuffer(16));
         expectedValue[0] = parseInt("12", 16);
         expectedValue[1] = parseInt("3e", 16);
         expectedValue[2] = parseInt("45", 16);
@@ -82,18 +81,18 @@ describe("toBytes()", function () {
         expectedValue[14] = parseInt("00", 16);
         expectedValue[14] = parseInt("00", 16);
 
-        let actualValue = new Uint8Array(toBytes(inputValue));
+        const actualValue = new Uint8Array(toBytes(inputValue));
 
         expect(actualValue).toEqual(expectedValue);
     });
 
 });
 
-describe("fromBytes()", function () {
+describe("fromBytes()", () => {
 
-    it("accepts an array of bytes", function () {
-        let expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        let inputValue = new Uint8Array(new ArrayBuffer(16));
+    it("accepts an array of bytes", () => {
+        const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = new Uint8Array(new ArrayBuffer(16));
         inputValue[0] = parseInt("12", 16);
         inputValue[1] = parseInt("3e", 16);
         inputValue[2] = parseInt("45", 16);
@@ -111,7 +110,7 @@ describe("fromBytes()", function () {
         inputValue[14] = parseInt("00", 16);
         inputValue[14] = parseInt("00", 16);
 
-        let actualValue = fromBytes(inputValue);
+        const actualValue = fromBytes(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
     });

@@ -31,31 +31,31 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from './types/Uuid';
-import { validate } from './validate';
+import { Uuid } from "./types/Uuid";
+import { validate } from "./validate";
 
-describe("validate()", function () {
+describe("validate()", () => {
 
-    it("accepts a well-formatted UUID string", function () {
-        let inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        let expectedValue = true;
-        let actualValue = validate(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("accepts a type-safe UUID object", function () {
-        let inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        let expectedValue = true;
-        let actualValue = validate(inputValue);
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const expectedValue = true;
+        const actualValue = validate(inputValue);
 
         expect(actualValue).toBe(expectedValue);
     });
 
-    it("rejects a badly-formatted UUID string", function () {
-        let inputValue = "123e4567e89b12d3a456426655440000";
-        let expectedValue = false;
-        let actualValue = validate(inputValue);
+    it("accepts a type-safe UUID object", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = true;
+        const actualValue = validate(inputValue);
+
+        expect(actualValue).toBe(expectedValue);
+    });
+
+    it("rejects a badly-formatted UUID string", () => {
+        const inputValue = "123e4567e89b12d3a456426655440000";
+        const expectedValue = false;
+        const actualValue = validate(inputValue);
 
         expect(actualValue).toBe(expectedValue);
     });
