@@ -5,6 +5,7 @@
 ### Fixes
 
 * `npm run clean` now removes the `lib` folder
+* Removed `npm postinstall` script (prevents package installing correctly)
 
 ## v0.0.2
 
