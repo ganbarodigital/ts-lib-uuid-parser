@@ -6,8 +6,8 @@
     "type": "git",
     "url": "https://github.com/ganbarodigital/ts-uuid-parser.git"
   },
-  "main": "lib/V1/index.js",
-  "types": "lib/V1/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "tslint -p ./tsconfig.json",
