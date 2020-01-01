@@ -35,4 +35,5 @@
 export * from "./errors";
 export * from "./types";
 export * from "./bytes";
+export * from "./mustBe";
 export * from "./validate";

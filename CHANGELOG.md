@@ -2,6 +2,15 @@
 
 ## develop
 
+## v0.0.4
+
+Released Wednesday, 1st January 2020
+
+### Fixes
+
+* `import {} from "@ganbarodigital/ts-uuid-parser/V1` hopefully now works
+* `mustBe` is now exported
+
 ## v0.0.3
 
 Releaed Wednesday, 1st January 2020
