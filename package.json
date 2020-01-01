@@ -15,7 +15,7 @@
     "prepublishOnly": "npm test && npm run lint",
     "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
-    "clean": "find src -name '*.js' | xargs rm && find src -name '*.js.map' | xargs rm",
+    "clean": "rm -rf lib",
     "postinstall": "npm run build"
   },
   "author": "",

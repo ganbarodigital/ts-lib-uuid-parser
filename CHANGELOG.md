@@ -2,6 +2,10 @@
 
 ## develop
 
+### Fixes
+
+* `npm run clean` now removes the `lib` folder
+
 ## v0.0.2
 
 Released Wednesday, 1st January 2020
