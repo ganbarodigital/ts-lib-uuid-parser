@@ -17,7 +17,12 @@
     "cover": "nyc --cache=false npm run test",
     "clean": "rimraf lib"
   },
-  "author": "",
+  "contributors": [
+    "Stuart Herbert <stuherbert@ganbarodigital.com> (https://ganbarodigital.com)"
+  ],
+  "keywords": [
+    "uuid"
+  ],
   "files": [
     "lib/**/*",
     "CHANGELOG.md",
