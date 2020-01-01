@@ -1,6 +1,6 @@
 {
   "name": "@ganbarodigital/ts-uuid-parser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Converts human-readable UUIDs to bytes",
   "repository": {
     "type": "git",
@@ -15,8 +15,7 @@
     "prepublishOnly": "npm test && npm run lint",
     "test": "node_modules/.bin/tsc -p ./tsconfig-test.json && node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "cover": "node_modules/.bin/tsc -p ./tsconfig-test.json && nyc --cache=false node_modules/.bin/jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
-    "clean": "find src -name '*.js' | xargs rm && find src -name '*.js.map' | xargs rm",
-    "postinstall": "npm run build"
+    "clean": "rm -rf lib"
   },
   "author": "",
   "files": [

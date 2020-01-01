@@ -2,6 +2,15 @@
 
 ## develop
 
+## v0.0.3
+
+Releaed Wednesday, 1st January 2020
+
+### Fixes
+
+* `npm run clean` now removes the `lib` folder
+* Removed `npm postinstall` script (prevents package installing correctly)
+
 ## v0.0.2
 
 Released Wednesday, 1st January 2020
