@@ -9,10 +9,12 @@ The library also offers a `Uuid` type, and a useful validation function.
 ## Quick Start
 
 ```
+# run this from your Terminal
 npm install @ganbarodigital/ts-uuid-parser
 ```
 
-```
+```typescript
+// add this import to your Typescript code
 import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1"
 ```
 
@@ -47,7 +49,7 @@ const myUuid = new Uuid("9c47cb7c-9793-4944-9189-61a938d0e9bd");
 function isUuidData(input: Uuid|string): boolean
 ```
 
-`isUuidData()` is a `data guard`. It returns `true` if the input is a UUID that this library can work with.
+`isUuidData()` is a _data guard_. It returns `true` if the input is a UUID that this library can work with.
 
 For example:
 
@@ -65,7 +67,7 @@ if (!isUuidData("12345-67890")) {
 function isUuidString(input: string): boolean
 ```
 
-`isUuidString()` is a `data guard`. It returns `true` if the input is a well-formatted UUID.
+`isUuidString()` is a _data guard_. It returns `true` if the input is a well-formatted UUID.
 
 For example:
 
