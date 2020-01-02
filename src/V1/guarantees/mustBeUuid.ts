@@ -34,14 +34,14 @@ import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
 import { InvalidUuidError, mustBeUuidWithOnError, Uuid } from "..";
 
+// we need an error handler for dealing with invalid UUIDs
+export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
+    throw extra;
+};
+
 /**
  * throws an error if the given string is not a well-formatted UUID
  */
 export function mustBeUuid(input: Uuid|string): void {
-    // we need an error handler to throw the error
-    const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-        throw extra;
-    };
-
-    return mustBeUuidWithOnError(input, onError);
+    return mustBeUuidWithOnError(input, throwInvalidUuidError);
 }
