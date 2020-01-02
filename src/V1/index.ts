@@ -35,5 +35,5 @@
 export * from "./enforcers";
 export * from "./errors";
 export * from "./guards";
-export * from "./operations";
+export * from "./transforms";
 export * from "./types";
