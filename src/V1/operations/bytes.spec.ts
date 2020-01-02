@@ -32,9 +32,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import { Uuid } from "../";
-import { fromBytes, toBytes } from "./bytes";
+import { fromBytes, uuidToBytes } from "./bytes";
 
-describe("toBytes()", () => {
+describe("uuidToBytes()", () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
@@ -56,7 +56,7 @@ describe("toBytes()", () => {
         expectedValue[14] = parseInt("00", 16);
         expectedValue[14] = parseInt("00", 16);
 
-        const actualValue = new Uint8Array(toBytes(inputValue));
+        const actualValue = new Uint8Array(uuidToBytes(inputValue));
 
         expect(actualValue).toEqual(expectedValue);
     });
@@ -81,7 +81,7 @@ describe("toBytes()", () => {
         expectedValue[14] = parseInt("00", 16);
         expectedValue[14] = parseInt("00", 16);
 
-        const actualValue = new Uint8Array(toBytes(inputValue));
+        const actualValue = new Uint8Array(uuidToBytes(inputValue));
 
         expect(actualValue).toEqual(expectedValue);
     });

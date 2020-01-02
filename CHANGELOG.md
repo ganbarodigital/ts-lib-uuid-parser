@@ -5,6 +5,7 @@
 ### B/C Breaks
 
 * `mustBe()` is now `mustBeUuid()`
+* `toBytes()` is now `uuidToBytes()`
 * `validate()` is now `validateUuid()`
 
 ### Fixes

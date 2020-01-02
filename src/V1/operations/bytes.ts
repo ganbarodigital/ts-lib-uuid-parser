@@ -55,7 +55,7 @@ for (let i = 0; i < 256; i++) {
 /**
  * Converts a human-readable UUID into an array of bytes
  */
-export function toBytes(uuid: Uuid|string, buf?: ArrayBuffer, offset = 0): ArrayBuffer {
+export function uuidToBytes(uuid: Uuid|string, buf?: ArrayBuffer, offset = 0): ArrayBuffer {
     // make sure we have a uuid to work with
     if (typeof(uuid) === "string") {
         uuid = new Uuid(uuid);
