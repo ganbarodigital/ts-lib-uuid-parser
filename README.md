@@ -165,7 +165,7 @@ function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid
 
 If the resulting string isn't a valid UUID, the `onError` handler is called.
 
-The default `onError` handler is `throwInvalidUuidError()`.s
+The default `onError` handler is `throwInvalidUuidError()`.
 
 ### uuidToBytes()
 
