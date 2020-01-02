@@ -93,12 +93,14 @@ For example:
 import { Uuid, isUuid } from "@ganbarodigital/ts-uuid-parser/V1";
 
 function shortenUuid(input: Uuid|string): string {
+    let uuid: Uuid;
+
     if (isUuid(input)) {
         // at this point, the compiler knows that `input` is a Uuid
-        let uuid = input;
+        uuid = input;
     } else {
         // at this point, the compiler knows that `input` is a string
-        let uuid = Uuid(input);
+        uuid = Uuid(input);
     }
 
     // ...
@@ -111,7 +113,7 @@ function shortenUuid(input: Uuid|string): string {
 function mustBeUuid(input: Uuid|string): void
 ```
 
-`mustBeUuid()` is a _data guarantee_. It throws an `IllegalUuidError` if the input isn't an acceptable UUID.
+`mustBeUuid()` is a _data guarantee_. It throws an `InvalidUuidError` if the input isn't an acceptable UUID.
 
 For example:
 
