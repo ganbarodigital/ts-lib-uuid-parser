@@ -31,7 +31,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { mustBe } from "../mustBe";
+import { mustBeUuid } from "../mustBe";
 
 /**
  * A type-safe representation of a UUID / GUID
@@ -40,7 +40,7 @@ export class Uuid {
     public readonly hex: string;
 
     constructor(uuid: string) {
-        mustBe(uuid);
+        mustBeUuid(uuid);
         this.hex = uuid;
     }
 }

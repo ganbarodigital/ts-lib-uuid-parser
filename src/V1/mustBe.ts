@@ -37,7 +37,7 @@ import { validateUuid } from "./validate";
 /**
  * throws an error if the given string is not a well-formatted UUID
  */
-export function mustBe(input: Uuid|string): void {
+export function mustBeUuid(input: Uuid|string): void {
     // a UUID is always valid!
     if (isUuid(input)) {
         return;

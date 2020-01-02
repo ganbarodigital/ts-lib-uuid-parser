@@ -4,6 +4,7 @@
 
 ### B/C Breaks
 
+* `mustBe()` is now `mustBeUuid()`
 * `validate()` is now `validateUuid()`
 
 ### Fixes

@@ -31,23 +31,23 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { mustBe } from "./mustBe";
+import { mustBeUuid } from "./mustBe";
 import { Uuid } from "./types/Uuid";
 
 describe("mustBe()",  () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        mustBe(inputValue);
+        mustBeUuid(inputValue);
     });
 
     it("accepts a type-safe UUID object", () => {
         const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        mustBe(inputValue);
+        mustBeUuid(inputValue);
     });
 
     it("rejects a badly-formatted UUID string",  () => {
         const inputValue = "123e4567e89b12d3a456426655440000";
-        expect(() => {mustBe(inputValue);}).toThrow();
+        expect(() => {mustBeUuid(inputValue);}).toThrow();
     });
 });
