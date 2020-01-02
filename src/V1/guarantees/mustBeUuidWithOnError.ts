@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -33,32 +32,23 @@
 //
 import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
-
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
-
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
-
-    if (input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
-}
+import { InvalidUuidError, invalidUuidError, isUuidString, isUuidType, Uuid } from "..";
 
 /**
- * identifies an error condition
+ * calls the error handler if the given string is not a well-formatted UUID
  */
-export const invalidUuidError = Symbol("Invalid UUID");
+export function mustBeUuidWithOnError(input: Uuid|string, onError: OnError<InvalidUuidError>): void {
+    // a UUID is always valid!
+    if (isUuidType(input)) {
+        return;
+    }
 
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+    // a string must contain a well-formatted UUID
+    if (isUuidString(input)) {
+        return;
+    }
+
+    // if we get here, the UUID is not valid, and we will delegate
+    // error handling to the caller
+    onError(invalidUuidError, "UUID is invalid / not in RFC 4122 format", new InvalidUuidError(input));
+}

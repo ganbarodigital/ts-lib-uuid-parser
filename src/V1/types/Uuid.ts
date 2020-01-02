@@ -31,7 +31,15 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { mustBe } from "../mustBe";
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
+
+import { InvalidUuidError, throwInvalidUuidError } from "../errors";
+import { mustBeUuidWithOnError } from "../guarantees";
+
+/**
+ * length of a UUID byte-format
+ */
+export const UuidByteLength = 16;
 
 /**
  * A type-safe representation of a UUID / GUID
@@ -39,23 +47,14 @@ import { mustBe } from "../mustBe";
 export class Uuid {
     public readonly hex: string;
 
-    constructor(uuid: string) {
-        mustBe(uuid);
+    constructor(uuid: string, onError?: OnError<InvalidUuidError>) {
+        // do we need to provide an error handler?
+        onError = onError ?? throwInvalidUuidError;
+
+        // guarantee that we have a valid Uuid
+        mustBeUuidWithOnError(uuid, onError);
+
+        // all done
         this.hex = uuid;
     }
-}
-
-/**
- * A type-guard to make sure that you're dealing with a type-safe Uuid
- */
-export function isUuid(input: any): input is Uuid {
-    if (typeof(input) !== "object") {
-        return false;
-    }
-
-    if (input.hex === undefined) {
-        return false;
-    }
-
-    return true;
 }

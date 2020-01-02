@@ -31,34 +31,49 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
+import { InvalidUuidError, Uuid } from "..";
+import { UuidByteLength } from "../types";
 
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
+/**
+ * Converts a human-readable UUID into an array of bytes
+ */
+export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
+    target = target ?? Buffer.alloc(UuidByteLength);
 
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+    // we can use the Buffer to do the conversion for us!
+    target.write(
+        uuid.hex.substr(0, 8)
+        + uuid.hex.substr(9, 4)
+        + uuid.hex.substr(14, 4)
+        + uuid.hex.substr(19, 4)
+        + uuid.hex.substr(24, 12),
+        "hex",
+    );
 
-    if (input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
+    // all done
+    return target;
 }
 
 /**
- * identifies an error condition
+ * converts an array of bytes into a type-safe UUID
  */
-export const invalidUuidError = Symbol("Invalid UUID");
+export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
+    // the Buffer will give us the raw hex ...
+    const unformattedHex = input.toString("hex", 0, 16);
 
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+    // ... we just need to format it
+    return new Uuid(
+        unformattedHex.substr(0, 8)
+        + "-"
+        + unformattedHex.substr(8, 4)
+        + "-"
+        + unformattedHex.substr(12, 4)
+        + "-"
+        + unformattedHex.substr(16, 4)
+        + "-"
+        + unformattedHex.substr(20, 12),
+        onError,
+    );
+}

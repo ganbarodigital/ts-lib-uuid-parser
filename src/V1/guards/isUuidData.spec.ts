@@ -31,34 +31,31 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { isUuidData, Uuid } from "..";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
+describe("isUuidData()", () => {
 
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const expectedValue = true;
+        const actualValue = isUuidData(inputValue);
 
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+        expect(actualValue).toBe(expectedValue);
+    });
 
-    if (input.invalidInput === undefined) {
-        return false;
-    }
+    it("accepts a type-safe UUID object", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = true;
+        const actualValue = isUuidData(inputValue);
 
-    return true;
-}
+        expect(actualValue).toBe(expectedValue);
+    });
 
-/**
- * identifies an error condition
- */
-export const invalidUuidError = Symbol("Invalid UUID");
+    it("rejects a badly-formatted UUID string", () => {
+        const inputValue = "123e4567e89b12d3a456426655440000";
+        const expectedValue = false;
+        const actualValue = isUuidData(inputValue);
 
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+        expect(actualValue).toBe(expectedValue);
+    });
+});

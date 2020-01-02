@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -31,34 +30,16 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { isUuidString, Uuid } from "..";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
-
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
-
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
-
-    if (input.invalidInput === undefined) {
-        return false;
+/**
+ * returns `true` if the given input is a UUID that we can work with,
+ * `false` otherwise
+ */
+export function isUuidData(input: Uuid|string): boolean {
+    if (typeof(input) === "string") {
+        return isUuidString(input);
     }
 
     return true;
 }
-
-/**
- * identifies an error condition
- */
-export const invalidUuidError = Symbol("Invalid UUID");
-
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};

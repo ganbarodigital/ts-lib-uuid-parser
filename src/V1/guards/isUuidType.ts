@@ -31,32 +31,19 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from './types/Uuid';
-import { validate } from './validate';
+import { Uuid } from "..";
 
-describe("validate()", function () {
+/**
+ * A type-guard to make sure that you're dealing with a type-safe Uuid
+ */
+export function isUuidType(input: any): input is Uuid {
+    if (typeof(input) !== "object") {
+        return false;
+    }
 
-    it("accepts a well-formatted UUID string", function () {
-        let inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        let expectedValue = true;
-        let actualValue = validate(inputValue);
+    if (input.hex === undefined) {
+        return false;
+    }
 
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("accepts a type-safe UUID object", function () {
-        let inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        let expectedValue = true;
-        let actualValue = validate(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("rejects a badly-formatted UUID string", function () {
-        let inputValue = "123e4567e89b12d3a456426655440000";
-        let expectedValue = false;
-        let actualValue = validate(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-});
+    return true;
+}

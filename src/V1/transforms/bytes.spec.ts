@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,24 +31,42 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { InvalidUuidError } from "./errors/InvalidUuid";
-import { isUuid, Uuid } from "./types/Uuid";
-import { validate } from "./validate";
+import { Uuid } from "../";
+import { UuidByteLength } from "../types";
+import { uuidFromBytes, uuidToBytes } from "./bytes";
 
-/**
- * throws an error if the given string is not a well-formatted UUID
- */
-export function mustBe(input: Uuid|string): void {
-    // a UUID is always valid!
-    if (isUuid(input)) {
-        return;
-    }
+describe("uuidToBytes()", () => {
 
-    if (validate(input)) {
-        return;
-    }
+    it("accepts a UUID object", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
 
-    // if we get here, the UUID is not valid, and we will throw
-    // an error
-    throw new InvalidUuidError(input);
-}
+        const actualValue = uuidToBytes(inputValue);
+
+        expect(actualValue).toEqual(expectedValue);
+    });
+
+    it("accepts a Buffer to write to", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputBuffer = Buffer.alloc(UuidByteLength);
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidToBytes(inputValue, inputBuffer);
+
+        expect(actualValue).toBe(inputBuffer);
+        expect(actualValue).toEqual(expectedValue);
+    });
+
+});
+
+describe("uuidFromBytes()", () => {
+
+    it("accepts an array of bytes", () => {
+        const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidFromBytes(inputValue);
+
+        expect(actualValue).toEqual(expectedValue);
+    });
+});

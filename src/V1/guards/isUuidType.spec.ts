@@ -31,34 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { isUuidType, Uuid } from "..";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
+describe("isUuidType()", () => {
+    it("accepts a Uuid type", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        expect(isUuidType(inputValue)).toBeTrue();
+    });
 
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
+    it("rejects other objects", () => {
+        const inputValue = {};
+        expect(isUuidType(inputValue)).toBeFalse();
 
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+    });
 
-    if (input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * identifies an error condition
- */
-export const invalidUuidError = Symbol("Invalid UUID");
-
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+    it("rejects UUID strings", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        expect(isUuidType(inputValue)).toBeFalse();
+    });
+});

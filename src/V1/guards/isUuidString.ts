@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -31,34 +30,15 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
-
-export class InvalidUuidError {
-    public readonly invalidInput: string;
-
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
-
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
-
-    if (input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
-}
+/**
+ * A regex that will match UUID v1-v5, and the NULL UUID
+ */
+export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", "i");
 
 /**
- * identifies an error condition
+ * returns `true` if the given string is a well-formatted UUID,
+ * `false` otherwise
  */
-export const invalidUuidError = Symbol("Invalid UUID");
-
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+export function isUuidString(input: string): boolean {
+    return UuidRegex.test(input);
+}

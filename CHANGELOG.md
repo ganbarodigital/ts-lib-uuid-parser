@@ -2,6 +2,34 @@
 
 ## develop
 
+# v0.1.0
+
+Released Thursday, 2nd January 2020.
+
+### B/C Breaks
+
+* `fromBytes()` is now `uuidFromBytes()`
+* `IsInvalidUuidError()` is now `isInvalidUuidError()`
+* `isUuid()` is now `isUuidType()`
+* `mustBe()` is now `mustBeUuid()`
+* `toBytes()` is now `uuidToBytes()`
+* `validate()` is now `isUuidData()`
+* `uuidToBytes()` now requires a `Buffer`
+* `uuidFromBytes()` now requires a `Buffer`
+
+### New
+
+* Added `isUuidString()`
+* Added `mustBeUuidWithOnError()`
+* Added `UuidByteLength` constant
+
+### Fixes
+
+* Clean up the NPM scripts
+* Do not include Jasmine's `spec` folder in the published package
+* Switch to our fork of 'jasmine-ts', solves NPM security audit issue
+* Switch to `rimraf` in NPM scripts for more portability
+
 ## v0.0.4
 
 Released Wednesday, 1st January 2020
