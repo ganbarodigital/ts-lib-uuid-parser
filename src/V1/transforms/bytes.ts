@@ -37,37 +37,20 @@ import { InvalidUuidError, Uuid } from "..";
 import { UuidByteLength } from "../types";
 
 /**
- * byteToHexMap holds the hexadecimal for each possible byte value
- */
-type byteMap = { [key: number]: string };
-const byteToHexMap: byteMap = [];
-
-/**
- * hexToByteMap holds the byte value for each possible hexadecimal pair
- */
-type hexMap = { [key: string]: number };
-const hexToByteMap: hexMap = {};
-
-// populate both maps
-for (let i = 0; i < 256; i++) {
-    // this guarantees that we always get two hex characters back
-    byteToHexMap[i] = (i + 0x100).toString(16).substr(1);
-    hexToByteMap[byteToHexMap[i]] = i;
-}
-
-/**
  * Converts a human-readable UUID into an array of bytes
  */
-export function uuidToBytes(uuid: Uuid): Buffer {
-    const target = Buffer.alloc(UuidByteLength);
+export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
+    target = target ?? Buffer.alloc(UuidByteLength);
 
-    // let's get the UUID converted
-    let i = 0;
-    uuid.hex.toLowerCase().replace(/[0-9a-f]{2}/g, (hex: string): string => {
-        target[i] = hexToByteMap[hex];
-        i++;
-        return hex;
-    });
+    // we can use the Buffer to do the conversion for us!
+    target.write(
+        uuid.hex.substr(0, 8)
+        + uuid.hex.substr(9, 4)
+        + uuid.hex.substr(14, 4)
+        + uuid.hex.substr(19, 4)
+        + uuid.hex.substr(24, 12),
+        "hex",
+    );
 
     // all done
     return target;
@@ -77,30 +60,20 @@ export function uuidToBytes(uuid: Uuid): Buffer {
  * converts an array of bytes into a type-safe UUID
  */
 export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
-    // write to the start of the buffer
-    let offset = 0;
+    // the Buffer will give us the raw hex ...
+    const unformattedHex = input.toString("hex", 0, 16);
 
+    // ... we just need to format it
     return new Uuid(
-        byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
+        unformattedHex.substr(0, 8)
         + "-"
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
+        + unformattedHex.substr(8, 4)
         + "-"
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
+        + unformattedHex.substr(12, 4)
         + "-"
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
+        + unformattedHex.substr(16, 4)
         + "-"
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]]
-        + byteToHexMap[input[offset++]],
+        + unformattedHex.substr(20, 12),
         onError,
     );
 }

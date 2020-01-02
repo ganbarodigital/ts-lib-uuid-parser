@@ -156,19 +156,27 @@ Most of the time, you'll use `mustBeUuid()` instead. But this is here, if you ne
 ### uuidFromBytes()
 
 ```typescript
-function uuidFromBytes(input: ArrayBuffer, offset = 0): Uuid
+function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid
 ```
 
-`uuidFromBytes()` is a _data transform_. It builds a human-readable UUID from a byte array.
+`uuidFromBytes()` is a _data transform_. It builds a human-readable UUID from a `Buffer`, reading from offset `0`. It returns the resulting `Uuid` value.
+
+If the resulting string isn't a valid UUID, the `onError` handler is called.
+
+The default `onError` handler is `throwInvalidUuidError()`.s
 
 ### uuidToBytes()
 
 ```typescript
-function uuidToBytes(uuid: Uuid|string, buf?: ArrayBuffer, offset = 0): ArrayBuffer
+function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer
 
 ```
 
-`uuidToBytes()` is a _data transform_. It builds a byte array from a human-readable UUID.
+`uuidToBytes()` is a _data transform_. It converts a human-readable UUID into bytes, and writes those bytes into the `target` `Buffer`, starting at offset `0`.
+
+If you do not provide a `target` `Buffer` to write to, `uuidToBytes()` will allocate one for you.
+
+The return value is the `Buffer` that has been written to.
 
 ## NPM Scripts
 
