@@ -126,6 +126,33 @@ export class Uuid {
 }
 ```
 
+`mustBeUuid()` is a wrapper around [`mustBeUuidWithOnError()`](#mustbeuuidwithonerror).
+
+### mustBeUuidWithOnError()
+
+```typescript
+function mustBeUuidWithOnError(input: Uuid|string, onError: OnError<InvalidUuidError>): void
+```
+
+`mustBeUuidWithOnError()` is a _data guarantee_ with _delegated error handling_. It calls the provided `onError()` with an `IllegalUuidError` if the input isn't an acceptable UUID.
+
+For example, here's the error handler that `mustBeUuid()` defines internally:
+
+```typescript
+// OnError is a function signature
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
+
+// this function:
+//
+// * expects `extra` to be an `InvalidUuidError` (no need for a type guard)
+// * has a return type of `never`, so it MUST throw an error
+const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+    throw extra;
+};
+```
+
+Most of the time, you'll use `mustBeUuid()` instead. But this is here, if you need control over what happens when an error occurs.
+
 ### uuidFromBytes()
 
 ```typescript

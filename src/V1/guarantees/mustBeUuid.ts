@@ -30,23 +30,18 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { InvalidUuidError, isUuidString, isUuidType, Uuid } from "..";
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
+
+import { InvalidUuidError, mustBeUuidWithOnError, Uuid } from "..";
 
 /**
  * throws an error if the given string is not a well-formatted UUID
  */
 export function mustBeUuid(input: Uuid|string): void {
-    // a UUID is always valid!
-    if (isUuidType(input)) {
-        return;
-    }
+    // we need an error handler to throw the error
+    const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+        throw extra;
+    };
 
-    // a string must contain a well-formatted UUID
-    if (isUuidString(input)) {
-        return;
-    }
-
-    // if we get here, the UUID is not valid, and we will throw
-    // an error
-    throw new InvalidUuidError(input);
+    return mustBeUuidWithOnError(input, onError);
 }

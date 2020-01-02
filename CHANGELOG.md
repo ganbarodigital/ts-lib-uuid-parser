@@ -13,6 +13,7 @@
 ### New
 
 * Added `isUuidString()`
+* Added `mustBeUuidWithOnError()`
 
 ### Fixes
 
