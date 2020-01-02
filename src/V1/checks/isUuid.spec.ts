@@ -31,10 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { isUuid, Uuid } from "../";
 
-export * from "./checks";
-export * from "./errors";
-export * from "./types";
-export * from "./bytes";
-export * from "./mustBe";
-export * from "./validate";
+describe("isUuid()", () => {
+    it("accepts a Uuid type", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        expect(isUuid(inputValue)).toBeTrue();
+    });
+
+    it("rejects other objects", () => {
+        const inputValue = {};
+        expect(isUuid(inputValue)).toBeFalse();
+
+    });
+
+    it("rejects UUID strings", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        expect(isUuid(inputValue)).toBeFalse();
+    });
+});

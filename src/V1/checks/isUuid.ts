@@ -31,10 +31,19 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { Uuid } from "../";
 
-export * from "./checks";
-export * from "./errors";
-export * from "./types";
-export * from "./bytes";
-export * from "./mustBe";
-export * from "./validate";
+/**
+ * A type-guard to make sure that you're dealing with a type-safe Uuid
+ */
+export function isUuid(input: any): input is Uuid {
+    if (typeof(input) !== "object") {
+        return false;
+    }
+
+    if (input.hex === undefined) {
+        return false;
+    }
+
+    return true;
+}

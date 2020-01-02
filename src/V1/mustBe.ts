@@ -30,8 +30,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { isUuid } from "./checks/isUuid";
 import { InvalidUuidError } from "./errors/InvalidUuid";
-import { isUuid, Uuid } from "./types/Uuid";
+import { Uuid } from "./types/Uuid";
 import { validateUuid } from "./validate";
 
 /**

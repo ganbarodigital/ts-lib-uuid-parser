@@ -30,7 +30,8 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuid, Uuid } from "./types/Uuid";
+import { isUuid } from "./checks/isUuid";
+import { Uuid } from "./types/Uuid";
 
 /**
  * A regex that will match UUID v1-v5, and the NULL UUID

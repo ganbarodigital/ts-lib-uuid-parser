@@ -31,7 +31,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuid, Uuid } from "./Uuid";
+import { Uuid } from "./Uuid";
 
 describe("Uuid", () => {
 
@@ -40,23 +40,5 @@ describe("Uuid", () => {
         const actualValue = new Uuid(inputValue);
 
         expect(actualValue).toBeInstanceOf(Uuid);
-    });
-});
-
-describe("isUuid()", () => {
-    it("accepts a Uuid type", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        expect(isUuid(inputValue)).toBeTrue();
-    });
-
-    it("rejects other objects", () => {
-        const inputValue = {};
-        expect(isUuid(inputValue)).toBeFalse();
-
-    });
-
-    it("rejects UUID strings", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        expect(isUuid(inputValue)).toBeFalse();
     });
 });

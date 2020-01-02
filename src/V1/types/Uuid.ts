@@ -44,18 +44,3 @@ export class Uuid {
         this.hex = uuid;
     }
 }
-
-/**
- * A type-guard to make sure that you're dealing with a type-safe Uuid
- */
-export function isUuid(input: any): input is Uuid {
-    if (typeof(input) !== "object") {
-        return false;
-    }
-
-    if (input.hex === undefined) {
-        return false;
-    }
-
-    return true;
-}
