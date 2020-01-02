@@ -30,21 +30,16 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidType, Uuid } from "../";
+import { isUuidString, Uuid } from "..";
 
 /**
- * A regex that will match UUID v1-v5, and the NULL UUID
- */
-export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", "i");
-
-/**
- * returns `true` if the given string is well-formatted UUID string,
+ * returns `true` if the given input is a UUID that we can work with,
  * `false` otherwise
  */
-export function validateUuid(input: Uuid|string): boolean {
+export function isUuidData(input: Uuid|string): boolean {
     if (typeof(input) === "string") {
-        return UuidRegex.test(input);
+        return isUuidString(input);
     }
 
-    return isUuidType(input);
+    return true;
 }

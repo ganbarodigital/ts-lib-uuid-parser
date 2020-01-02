@@ -32,5 +32,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
+export * from "./isUuidData";
 export * from "./isUuidString";
 export * from "./isUuidType";

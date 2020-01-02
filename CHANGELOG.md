@@ -8,7 +8,7 @@
 * `isUuid()` is now `isUuidType()`
 * `mustBe()` is now `mustBeUuid()`
 * `toBytes()` is now `uuidToBytes()`
-* `validate()` is now `validateUuid()`
+* `validate()` is now `isUuidData()`
 
 ### New
 
