@@ -82,7 +82,7 @@ export function uuidToBytes(uuid: Uuid|string, buf?: ArrayBuffer, offset = 0): A
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function fromBytes(input: ArrayBuffer, offset = 0): Uuid {
+export function uuidFromBytes(input: ArrayBuffer, offset = 0): Uuid {
     const buf = new Uint8Array(input);
 
     return new Uuid(

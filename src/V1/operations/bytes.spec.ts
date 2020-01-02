@@ -32,7 +32,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import { Uuid } from "../";
-import { fromBytes, uuidToBytes } from "./bytes";
+import { uuidFromBytes, uuidToBytes } from "./bytes";
 
 describe("uuidToBytes()", () => {
 
@@ -88,7 +88,7 @@ describe("uuidToBytes()", () => {
 
 });
 
-describe("fromBytes()", () => {
+describe("uuidFromBytes()", () => {
 
     it("accepts an array of bytes", () => {
         const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
@@ -110,7 +110,7 @@ describe("fromBytes()", () => {
         inputValue[14] = parseInt("00", 16);
         inputValue[14] = parseInt("00", 16);
 
-        const actualValue = fromBytes(inputValue);
+        const actualValue = uuidFromBytes(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
     });
