@@ -30,14 +30,14 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { InvalidUuidError, isUuid, Uuid, validateUuid } from "../";
+import { InvalidUuidError, isUuidType, Uuid, validateUuid } from "../";
 
 /**
  * throws an error if the given string is not a well-formatted UUID
  */
 export function mustBeUuid(input: Uuid|string): void {
     // a UUID is always valid!
-    if (isUuid(input)) {
+    if (isUuidType(input)) {
         return;
     }
 

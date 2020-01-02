@@ -31,19 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from "../";
+import { isUuidType, Uuid } from "..";
 
-/**
- * A type-guard to make sure that you're dealing with a type-safe Uuid
- */
-export function isUuid(input: any): input is Uuid {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+describe("isUuidType()", () => {
+    it("accepts a Uuid type", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        expect(isUuidType(inputValue)).toBeTrue();
+    });
 
-    if (input.hex === undefined) {
-        return false;
-    }
+    it("rejects other objects", () => {
+        const inputValue = {};
+        expect(isUuidType(inputValue)).toBeFalse();
 
-    return true;
-}
+    });
+
+    it("rejects UUID strings", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        expect(isUuidType(inputValue)).toBeFalse();
+    });
+});

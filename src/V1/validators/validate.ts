@@ -30,7 +30,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuid, Uuid } from "../";
+import { isUuidType, Uuid } from "../";
 
 /**
  * A regex that will match UUID v1-v5, and the NULL UUID
@@ -46,5 +46,5 @@ export function validateUuid(input: Uuid|string): boolean {
         return UuidRegex.test(input);
     }
 
-    return isUuid(input);
+    return isUuidType(input);
 }
