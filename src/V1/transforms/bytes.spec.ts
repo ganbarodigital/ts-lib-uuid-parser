@@ -36,52 +36,11 @@ import { uuidFromBytes, uuidToBytes } from "./bytes";
 
 describe("uuidToBytes()", () => {
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = new Uint8Array(new ArrayBuffer(16));
-        expectedValue[0] = parseInt("12", 16);
-        expectedValue[1] = parseInt("3e", 16);
-        expectedValue[2] = parseInt("45", 16);
-        expectedValue[3] = parseInt("67", 16);
-        expectedValue[4] = parseInt("e8", 16);
-        expectedValue[5] = parseInt("9b", 16);
-        expectedValue[6] = parseInt("12", 16);
-        expectedValue[7] = parseInt("d3", 16);
-        expectedValue[8] = parseInt("a4", 16);
-        expectedValue[9] = parseInt("56", 16);
-        expectedValue[10] = parseInt("42", 16);
-        expectedValue[11] = parseInt("66", 16);
-        expectedValue[12] = parseInt("55", 16);
-        expectedValue[13] = parseInt("44", 16);
-        expectedValue[14] = parseInt("00", 16);
-        expectedValue[14] = parseInt("00", 16);
-
-        const actualValue = new Uint8Array(uuidToBytes(inputValue));
-
-        expect(actualValue).toEqual(expectedValue);
-    });
-
     it("accepts a UUID object", () => {
         const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        const expectedValue = new Uint8Array(new ArrayBuffer(16));
-        expectedValue[0] = parseInt("12", 16);
-        expectedValue[1] = parseInt("3e", 16);
-        expectedValue[2] = parseInt("45", 16);
-        expectedValue[3] = parseInt("67", 16);
-        expectedValue[4] = parseInt("e8", 16);
-        expectedValue[5] = parseInt("9b", 16);
-        expectedValue[6] = parseInt("12", 16);
-        expectedValue[7] = parseInt("d3", 16);
-        expectedValue[8] = parseInt("a4", 16);
-        expectedValue[9] = parseInt("56", 16);
-        expectedValue[10] = parseInt("42", 16);
-        expectedValue[11] = parseInt("66", 16);
-        expectedValue[12] = parseInt("55", 16);
-        expectedValue[13] = parseInt("44", 16);
-        expectedValue[14] = parseInt("00", 16);
-        expectedValue[14] = parseInt("00", 16);
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
 
-        const actualValue = new Uint8Array(uuidToBytes(inputValue));
+        const actualValue = uuidToBytes(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
     });
@@ -92,23 +51,7 @@ describe("uuidFromBytes()", () => {
 
     it("accepts an array of bytes", () => {
         const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        const inputValue = new Uint8Array(new ArrayBuffer(16));
-        inputValue[0] = parseInt("12", 16);
-        inputValue[1] = parseInt("3e", 16);
-        inputValue[2] = parseInt("45", 16);
-        inputValue[3] = parseInt("67", 16);
-        inputValue[4] = parseInt("e8", 16);
-        inputValue[5] = parseInt("9b", 16);
-        inputValue[6] = parseInt("12", 16);
-        inputValue[7] = parseInt("d3", 16);
-        inputValue[8] = parseInt("a4", 16);
-        inputValue[9] = parseInt("56", 16);
-        inputValue[10] = parseInt("42", 16);
-        inputValue[11] = parseInt("66", 16);
-        inputValue[12] = parseInt("55", 16);
-        inputValue[13] = parseInt("44", 16);
-        inputValue[14] = parseInt("00", 16);
-        inputValue[14] = parseInt("00", 16);
+        const inputValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
 
         const actualValue = uuidFromBytes(inputValue);
 

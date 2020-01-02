@@ -10,11 +10,14 @@
 * `mustBe()` is now `mustBeUuid()`
 * `toBytes()` is now `uuidToBytes()`
 * `validate()` is now `isUuidData()`
+* `uuidToBytes()` now requires a `Buffer`
+* `uuidFromBytes()` now requires a `Buffer`
 
 ### New
 
 * Added `isUuidString()`
 * Added `mustBeUuidWithOnError()`
+* Added `UuidByteLength` constant
 
 ### Fixes
 

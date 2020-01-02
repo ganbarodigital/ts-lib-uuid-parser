@@ -31,7 +31,10 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from "../";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+
+import { InvalidUuidError, Uuid } from "..";
+import { UuidByteLength } from "../types";
 
 /**
  * byteToHexMap holds the hexadecimal for each possible byte value
@@ -55,56 +58,49 @@ for (let i = 0; i < 256; i++) {
 /**
  * Converts a human-readable UUID into an array of bytes
  */
-export function uuidToBytes(uuid: Uuid|string, buf?: ArrayBuffer, offset = 0): ArrayBuffer {
-    // make sure we have a uuid to work with
-    if (typeof(uuid) === "string") {
-        uuid = new Uuid(uuid);
-    }
-
-    // this will hold the bytes we create
-    buf = buf || new ArrayBuffer(16);
-
-    // we need a typed array to write into the buffer
-    const retval = new Uint8Array(buf);
+export function uuidToBytes(uuid: Uuid): Buffer {
+    const target = Buffer.alloc(UuidByteLength);
 
     // let's get the UUID converted
-    let i = offset;
+    let i = 0;
     uuid.hex.toLowerCase().replace(/[0-9a-f]{2}/g, (hex: string): string => {
-        retval[i] = hexToByteMap[hex];
+        target[i] = hexToByteMap[hex];
         i++;
         return hex;
     });
 
     // all done
-    return buf;
+    return target;
 }
 
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function uuidFromBytes(input: ArrayBuffer, offset = 0): Uuid {
-    const buf = new Uint8Array(input);
+export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
+    // write to the start of the buffer
+    let offset = 0;
 
     return new Uuid(
-        byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
+        byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
         + "-"
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
         + "-"
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
         + "-"
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
         + "-"
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]]
-        + byteToHexMap[buf[offset++]],
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]]
+        + byteToHexMap[input[offset++]],
+        onError,
     );
 }

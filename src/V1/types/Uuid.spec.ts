@@ -31,6 +31,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
+
+import { InvalidUuidError } from "../errors";
 import { Uuid } from "./Uuid";
 
 describe("Uuid", () => {
@@ -38,6 +41,16 @@ describe("Uuid", () => {
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
         const actualValue = new Uuid(inputValue);
+
+        expect(actualValue).toBeInstanceOf(Uuid);
+    });
+
+    it("accepts an error handler", () => {
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            throw extra;
+        };
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const actualValue = new Uuid(inputValue, onError);
 
         expect(actualValue).toBeInstanceOf(Uuid);
     });
