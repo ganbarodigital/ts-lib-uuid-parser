@@ -10,6 +10,10 @@
 * `toBytes()` is now `uuidToBytes()`
 * `validate()` is now `validateUuid()`
 
+### New
+
+* Added `isUuidString()`
+
 ### Fixes
 
 * Clean up the NPM scripts

@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -31,6 +30,15 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+/**
+ * A regex that will match UUID v1-v5, and the NULL UUID
+ */
+export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", "i");
 
-export * from "./isUuidString";
-export * from "./isUuidType";
+/**
+ * returns `true` if the given string is a well-formatted UUID,
+ * `false` otherwise
+ */
+export function isUuidString(input: string): boolean {
+    return UuidRegex.test(input);
+}
