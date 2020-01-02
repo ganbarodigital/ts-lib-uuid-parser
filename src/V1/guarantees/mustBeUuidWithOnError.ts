@@ -32,12 +32,7 @@
 //
 import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
-import { InvalidUuidError, isUuidString, isUuidType, Uuid } from "..";
-
-/**
- * identifies an error condition
- */
-export const invalidUuidError = Symbol("Invalid UUID");
+import { InvalidUuidError, invalidUuidError, isUuidString, isUuidType, Uuid } from "..";
 
 /**
  * calls the error handler if the given string is not a well-formatted UUID

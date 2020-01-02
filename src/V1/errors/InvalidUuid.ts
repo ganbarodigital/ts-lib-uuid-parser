@@ -53,6 +53,11 @@ export function isInvalidUuidError(input: any): input is InvalidUuidError {
     return true;
 }
 
+/**
+ * identifies an error condition
+ */
+export const invalidUuidError = Symbol("Invalid UUID");
+
 // we need an error handler for dealing with invalid UUIDs
 export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
     throw extra;
