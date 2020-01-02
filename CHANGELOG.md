@@ -2,6 +2,14 @@
 
 ## develop
 
+# v0.1.1
+
+Released Thursday, 2nd January 2020.
+
+### Fixes
+
+* Solved the problem of missing Typescript declaration files from the published package.
+
 # v0.1.0
 
 Released Thursday, 2nd January 2020.
