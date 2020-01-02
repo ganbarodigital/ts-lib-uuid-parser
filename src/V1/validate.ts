@@ -41,7 +41,7 @@ export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[
  * returns `true` if the given string is well-formatted UUID string,
  * `false` otherwise
  */
-export function validate(input: Uuid|string): boolean {
+export function validateUuid(input: Uuid|string): boolean {
     if (typeof(input) === "string") {
         return UuidRegex.test(input);
     }

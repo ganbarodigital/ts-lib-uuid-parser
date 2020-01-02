@@ -32,14 +32,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import { Uuid } from "./types/Uuid";
-import { validate } from "./validate";
+import { validateUuid } from "./validate";
 
 describe("validate()", () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
         const expectedValue = true;
-        const actualValue = validate(inputValue);
+        const actualValue = validateUuid(inputValue);
 
         expect(actualValue).toBe(expectedValue);
     });
@@ -47,7 +47,7 @@ describe("validate()", () => {
     it("accepts a type-safe UUID object", () => {
         const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
         const expectedValue = true;
-        const actualValue = validate(inputValue);
+        const actualValue = validateUuid(inputValue);
 
         expect(actualValue).toBe(expectedValue);
     });
@@ -55,7 +55,7 @@ describe("validate()", () => {
     it("rejects a badly-formatted UUID string", () => {
         const inputValue = "123e4567e89b12d3a456426655440000";
         const expectedValue = false;
-        const actualValue = validate(inputValue);
+        const actualValue = validateUuid(inputValue);
 
         expect(actualValue).toBe(expectedValue);
     });

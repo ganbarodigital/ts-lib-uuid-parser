@@ -2,6 +2,10 @@
 
 ## develop
 
+### B/C Breaks
+
+* `validate()` is now `validateUuid()`
+
 ### Fixes
 
 * Clean up the NPM scripts

@@ -32,7 +32,7 @@
 //
 import { InvalidUuidError } from "./errors/InvalidUuid";
 import { isUuid, Uuid } from "./types/Uuid";
-import { validate } from "./validate";
+import { validateUuid } from "./validate";
 
 /**
  * throws an error if the given string is not a well-formatted UUID
@@ -43,7 +43,7 @@ export function mustBe(input: Uuid|string): void {
         return;
     }
 
-    if (validate(input)) {
+    if (validateUuid(input)) {
         return;
     }
 
