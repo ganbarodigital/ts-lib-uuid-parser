@@ -32,8 +32,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-export * from "./guards";
+export * from "./enforcers";
 export * from "./errors";
+export * from "./guards";
 export * from "./operations";
 export * from "./types";
-export * from "./validators";

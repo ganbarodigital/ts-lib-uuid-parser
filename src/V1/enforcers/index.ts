@@ -32,4 +32,4 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-export * from "./mustBe";
+export * from "./mustBeUuid";
