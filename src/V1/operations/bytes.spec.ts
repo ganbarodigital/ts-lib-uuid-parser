@@ -31,8 +31,8 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { Uuid } from "../";
 import { fromBytes, toBytes } from "./bytes";
-import { Uuid } from "./types/Uuid";
 
 describe("toBytes()", () => {
 

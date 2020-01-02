@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -31,32 +30,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from "./types/Uuid";
-import { validateUuid } from "./validate";
+import { InvalidUuidError, isUuid, Uuid, validateUuid } from "../";
 
-describe("validate()", () => {
+/**
+ * throws an error if the given string is not a well-formatted UUID
+ */
+export function mustBeUuid(input: Uuid|string): void {
+    // a UUID is always valid!
+    if (isUuid(input)) {
+        return;
+    }
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = true;
-        const actualValue = validateUuid(inputValue);
+    if (validateUuid(input)) {
+        return;
+    }
 
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("accepts a type-safe UUID object", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        const expectedValue = true;
-        const actualValue = validateUuid(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("rejects a badly-formatted UUID string", () => {
-        const inputValue = "123e4567e89b12d3a456426655440000";
-        const expectedValue = false;
-        const actualValue = validateUuid(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-});
+    // if we get here, the UUID is not valid, and we will throw
+    // an error
+    throw new InvalidUuidError(input);
+}
