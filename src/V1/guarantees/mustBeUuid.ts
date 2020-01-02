@@ -30,14 +30,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
-
-import { InvalidUuidError, mustBeUuidWithOnError, Uuid } from "..";
-
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+import { mustBeUuidWithOnError, throwInvalidUuidError, Uuid } from "..";
 
 /**
  * throws an error if the given string is not a well-formatted UUID

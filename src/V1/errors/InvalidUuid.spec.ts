@@ -31,22 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { InvalidUuidError, IsInvalidUuidError } from './InvalidUuid';
+import { InvalidUuidError, isInvalidUuidError } from "./InvalidUuid";
 
 
-describe("IsInvalidUuidError", function () {
+describe("isInvalidUuidError", function () {
     it("accepts InvalidUuidError objects", function() {
         let inputValue = new InvalidUuidError("12345")
-        expect(IsInvalidUuidError(inputValue)).toBeTrue()
+        expect(isInvalidUuidError(inputValue)).toBeTrue()
     });
 
     it("rejects other objects", function() {
         let inputValue = {};
-        expect(IsInvalidUuidError(inputValue)).toBeFalse();
+        expect(isInvalidUuidError(inputValue)).toBeFalse();
     });
 
     it("rejects strings", function() {
         let inputValue = "";
-        expect(IsInvalidUuidError(inputValue)).toBeFalse();
+        expect(isInvalidUuidError(inputValue)).toBeFalse();
     });
 });

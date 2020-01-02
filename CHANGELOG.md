@@ -5,6 +5,7 @@
 ### B/C Breaks
 
 * `fromBytes()` is now `uuidFromBytes()`
+* `IsInvalidUuidError()` is now `isInvalidUuidError()`
 * `isUuid()` is now `isUuidType()`
 * `mustBe()` is now `mustBeUuid()`
 * `toBytes()` is now `uuidToBytes()`

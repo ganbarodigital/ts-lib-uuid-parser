@@ -31,6 +31,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
 export class InvalidUuidError {
     public readonly invalidInput: string;
@@ -40,7 +41,7 @@ export class InvalidUuidError {
     }
 }
 
-export function IsInvalidUuidError(input: any): input is InvalidUuidError {
+export function isInvalidUuidError(input: any): input is InvalidUuidError {
     if (typeof(input) !== "object") {
         return false;
     }
@@ -51,3 +52,8 @@ export function IsInvalidUuidError(input: any): input is InvalidUuidError {
 
     return true;
 }
+
+// we need an error handler for dealing with invalid UUIDs
+export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
+    throw extra;
+};
