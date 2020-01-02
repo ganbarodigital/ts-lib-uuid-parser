@@ -9,6 +9,7 @@
     "build": "npm run clean && tsc -p ./tsconfig.json",
     "lint": "tslint -p ./tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
+    "prepack": "npm run build",
     "test": "npm run clean && tsc -p ./tsconfig-test.json && jasmine-ts --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
     "cover": "rimraf coverage && rimraf .nyc_output && nyc --cache=false npm run test",
     "clean": "rimraf lib"
