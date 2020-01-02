@@ -32,7 +32,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-export * from "./checks";
+export * from "./guards";
 export * from "./errors";
 export * from "./operations";
 export * from "./types";
