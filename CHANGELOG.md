@@ -2,6 +2,10 @@
 
 ## develop
 
+# v0.1.0
+
+Released Thursday, 2nd January 2020.
+
 ### B/C Breaks
 
 * `fromBytes()` is now `uuidFromBytes()`
