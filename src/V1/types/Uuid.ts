@@ -57,4 +57,12 @@ export class Uuid {
         // all done
         this.hex = uuid;
     }
+
+    public [Symbol.toPrimitive](hint: string) {
+        if (hint === "number") {
+            return null;
+        }
+
+        return this.hex;
+    }
 }

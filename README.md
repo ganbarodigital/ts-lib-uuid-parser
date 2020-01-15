@@ -43,6 +43,20 @@ import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1";
 const myUuid = new Uuid("9c47cb7c-9793-4944-9189-61a938d0e9bd");
 ```
 
+### Uuid Automatic String Conversion
+
+```typescript
+import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1";
+
+// creates a new Uuid
+const myUuid = new Uuid("9c47cb7c-9793-4944-9189-61a938d0e9bd");
+
+// outputs the string "9c47cb7c-9793-4944-9189-61a938d0e9bd"
+console.log(myUuid);
+```
+
+Javascript will automatically convert a `Uuid` to a string, when you use any `Uuid` in a string context.
+
 ### isUuidData()
 
 ```typescript

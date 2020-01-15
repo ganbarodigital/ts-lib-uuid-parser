@@ -2,6 +2,10 @@
 
 ## develop
 
+### New
+
+* Added automatic to-string conversion of Uuids.
+
 ### Refactor
 
 * Move conversion to/from unformatted strings into separate functions

@@ -54,4 +54,14 @@ describe("Uuid", () => {
 
         expect(actualValue).toBeInstanceOf(Uuid);
     });
+
+    it("auto-converts to a string primative", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const expectedValue = "this is a uuid: " + inputValue;
+        const uuid = new Uuid(inputValue);
+
+        const actualValue = "this is a uuid: " + uuid;
+
+        expect(actualValue).toEqual(expectedValue);
+    });
 });
