@@ -31,32 +31,28 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
-
-import { InvalidUuidError, Uuid } from "..";
-import { UuidByteLength } from "../types";
+import { Uuid } from "../";
 import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
 
-/**
- * Converts a human-readable UUID into an array of bytes
- */
-export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
-    target = target ?? Buffer.alloc(UuidByteLength);
+describe("uuidToUnformatted()", () => {
+    it("accepts a UUID object", () => {
+        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = "123e4567e89b12d3a456426655440000";
 
-    // we can use the Buffer to do the conversion for us!
-    target.write(uuidToUnformatted(uuid), "hex");
+        const actualValue = uuidToUnformatted(inputValue);
 
-    // all done
-    return target;
-}
+        expect(actualValue).toEqual(expectedValue);
+    });
+});
 
-/**
- * converts an array of bytes into a type-safe UUID
- */
-export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
-    // the Buffer will give us the raw hex ...
-    const unformattedHex = input.toString("hex", 0, 16);
+describe("uuidFromUnformatted()", () => {
 
-    // ... we just need to format it
-    return uuidFromUnformatted(unformattedHex, onError);
-}
+    it("accepts a string", () => {
+        const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = "123e4567e89b12d3a456426655440000";
+
+        const actualValue = uuidFromUnformatted(inputValue);
+
+        expect(actualValue).toEqual(expectedValue);
+    });
+});

@@ -34,29 +34,30 @@
 import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
 import { InvalidUuidError, Uuid } from "..";
-import { UuidByteLength } from "../types";
-import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
 
 /**
- * Converts a human-readable UUID into an array of bytes
+ * Converts a human-readable UUID into an unformatted string
+ * (i.e. with the '-' stripped out)
  */
-export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
-    target = target ?? Buffer.alloc(UuidByteLength);
-
-    // we can use the Buffer to do the conversion for us!
-    target.write(uuidToUnformatted(uuid), "hex");
-
-    // all done
-    return target;
+export function uuidToUnformatted(uuid: Uuid): string {
+    return uuid.hex.split("-").join("");
 }
 
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
-    // the Buffer will give us the raw hex ...
-    const unformattedHex = input.toString("hex", 0, 16);
-
+export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid {
     // ... we just need to format it
-    return uuidFromUnformatted(unformattedHex, onError);
+    return new Uuid(
+        input.substr(0, 8)
+        + "-"
+        + input.substr(8, 4)
+        + "-"
+        + input.substr(12, 4)
+        + "-"
+        + input.substr(16, 4)
+        + "-"
+        + input.substr(20, 12),
+        onError,
+    );
 }
