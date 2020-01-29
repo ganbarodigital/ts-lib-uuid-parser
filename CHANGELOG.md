@@ -2,6 +2,10 @@
 
 ## develop
 
+## v0.2.0
+
+Released Wednesday, 29th January 2020.
+
 ### Backwards-Compatibility Break
 
 * `Uuid` is now a branded string. No longer a class / value object.
