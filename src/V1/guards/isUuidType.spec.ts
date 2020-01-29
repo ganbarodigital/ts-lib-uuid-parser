@@ -31,22 +31,32 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidType, Uuid } from "..";
+import { isUuidType } from "..";
+import { uuidFromFormatted } from "../transforms";
 
 describe("isUuidType()", () => {
     it("accepts a Uuid type", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
         expect(isUuidType(inputValue)).toBeTrue();
     });
 
-    it("rejects other objects", () => {
-        const inputValue = {};
-        expect(isUuidType(inputValue)).toBeFalse();
-
+    it("accepts strings", () => {
+        const inputValue = "this is an arbitrary string";
+        expect(isUuidType(inputValue)).toBeTrue();
     });
 
-    it("rejects UUID strings", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        expect(isUuidType(inputValue)).toBeFalse();
-    });
+    const rejectionData = [
+        [ "objects", {} ],
+        [ "boolean (false)", false ],
+        [ "boolean (true)", true ],
+        [ "floats", 0.1 ],
+        [ "integers", 5 ],
+    ]
+
+    for (const dataSet of rejectionData) {
+        it("rejects " + dataSet[0], () => {
+            const inputValue = dataSet[1];
+            expect(isUuidType(inputValue)).toBeFalse();
+        });
+    }
 });

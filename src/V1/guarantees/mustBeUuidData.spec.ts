@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,15 +31,17 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-/**
- * A regex that will match UUID v1-v5, and the NULL UUID
- */
-export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", "i");
+import { mustBeUuidData } from "./mustBeUuidData";
 
-/**
- * returns `true` if the given string is a well-formatted UUID,
- * `false` otherwise
- */
-export function isUuidString(input: string): boolean {
-    return UuidRegex.test(input);
-}
+describe("mustBeUuid()",  () => {
+
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        mustBeUuidData(inputValue);
+    });
+
+    it("rejects a badly-formatted UUID string",  () => {
+        const inputValue = "123e4567e89b12d3a456426655440000";
+        expect(() => {mustBeUuidData(inputValue); }).toThrow();
+    });
+});

@@ -36,14 +36,14 @@ import { Uuid } from "..";
 /**
  * A type-guard to make sure that you're dealing with a type-safe Uuid
  */
-export function isUuidType(input: any): input is Uuid {
-    if (typeof(input) !== "object") {
-        return false;
+export function isUuidType(input: unknown): input is Uuid {
+    // if (typeof(input) !== "object") {
+    //     return false;
+    // }
+
+    if (typeof(input) === "string") {
+        return true;
     }
 
-    if (input.hex === undefined) {
-        return false;
-    }
-
-    return true;
+    return false;
 }

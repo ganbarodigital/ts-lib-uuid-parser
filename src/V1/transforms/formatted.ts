@@ -31,23 +31,16 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidString } from "..";
+import { makeRefinedTypeFactory } from "@ganbarodigital/ts-lib-value-objects/lib/V1";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
-describe("isUuidString()", () => {
+import { InvalidUuidError, throwInvalidUuidError } from "../errors";
+import { mustBeUuidData } from "../guarantees";
+import { Uuid } from "../types";
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = true;
-        const actualValue = isUuidString(inputValue);
+type UuidBuilder = (input: string, onError?: OnError<InvalidUuidError>) => Uuid;
 
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("rejects a badly-formatted UUID string", () => {
-        const inputValue = "123e4567e89b12d3a456426655440000";
-        const expectedValue = false;
-        const actualValue = isUuidString(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-});
+/**
+ * this is our main factory for building Uuids
+ */
+export const uuidFromFormatted: UuidBuilder = makeRefinedTypeFactory(mustBeUuidData, throwInvalidUuidError);

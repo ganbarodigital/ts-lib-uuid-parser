@@ -32,5 +32,4 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-export * from "./mustBeUuid";
-export * from "./mustBeUuidWithOnError";
+export * from "./mustBeUuidData";

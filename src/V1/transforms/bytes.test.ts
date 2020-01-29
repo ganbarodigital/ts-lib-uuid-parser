@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,11 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { mustBeUuidWithOnError, throwInvalidUuidError, Uuid } from "..";
+import { uuidToBytes } from "./bytes";
+import { uuidFromFormatted } from "./formatted";
 
-/**
- * throws an error if the given string is not a well-formatted UUID
- */
-export function mustBeUuid(input: Uuid|string): void {
-    return mustBeUuidWithOnError(input, throwInvalidUuidError);
-}
+// tslint:disable-next-line: no-var-requires
+const { expect } = require("chai")
+  // tslint:disable-next-line: no-var-requires
+  .use(require("chai-bytes"));
+
+describe("uuidToBytes()", () => {
+
+    it("accepts a UUID object", () => {
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidToBytes(inputValue);
+
+        expect(actualValue).to.equalBytes(expectedValue);
+    });
+});
