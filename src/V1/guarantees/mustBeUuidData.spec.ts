@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,25 +31,17 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { mustBeUuidData } from "./mustBeUuidData";
 
-import { InvalidUuidError, invalidUuidError, isUuidString, isUuidType, Uuid } from "..";
+describe("mustBeUuid()",  () => {
 
-/**
- * calls the error handler if the given string is not a well-formatted UUID
- */
-export function mustBeUuidWithOnError(input: Uuid|string, onError: OnError<InvalidUuidError>): void {
-    // a UUID is always valid!
-    if (isUuidType(input)) {
-        return;
-    }
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        mustBeUuidData(inputValue);
+    });
 
-    // a string must contain a well-formatted UUID
-    if (isUuidString(input)) {
-        return;
-    }
-
-    // if we get here, the UUID is not valid, and we will delegate
-    // error handling to the caller
-    onError(invalidUuidError, "UUID is invalid / not in RFC 4122 format", new InvalidUuidError(input));
-}
+    it("rejects a badly-formatted UUID string",  () => {
+        const inputValue = "123e4567e89b12d3a456426655440000";
+        expect(() => {mustBeUuidData(inputValue); }).toThrow();
+    });
+});

@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,15 +31,16 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-/**
- * A regex that will match UUID v1-v5, and the NULL UUID
- */
-export const UuidRegex = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", "i");
+import { makeRefinedTypeFactory } from "@ganbarodigital/ts-lib-value-objects/lib/V1";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+
+import { InvalidUuidError, throwInvalidUuidError } from "../errors";
+import { mustBeUuidData } from "../guarantees";
+import { Uuid } from "../types";
+
+type UuidBuilder = (input: string, onError?: OnError<InvalidUuidError>) => Uuid;
 
 /**
- * returns `true` if the given string is a well-formatted UUID,
- * `false` otherwise
+ * this is our main factory for building Uuids
  */
-export function isUuidString(input: string): boolean {
-    return UuidRegex.test(input);
-}
+export const uuidFromFormatted: UuidBuilder = makeRefinedTypeFactory(mustBeUuidData, throwInvalidUuidError);

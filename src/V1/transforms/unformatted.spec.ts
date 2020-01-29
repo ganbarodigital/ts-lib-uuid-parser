@@ -31,12 +31,15 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from "../";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+
+import { InvalidUuidError } from "../errors";
+import { uuidFromFormatted } from "./formatted";
 import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
 
 describe("uuidToUnformatted()", () => {
     it("accepts a UUID object", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
         const expectedValue = "123e4567e89b12d3a456426655440000";
 
         const actualValue = uuidToUnformatted(inputValue);
@@ -48,11 +51,39 @@ describe("uuidToUnformatted()", () => {
 describe("uuidFromUnformatted()", () => {
 
     it("accepts a string", () => {
-        const expectedValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
         const inputValue = "123e4567e89b12d3a456426655440000";
 
         const actualValue = uuidFromUnformatted(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
+    });
+
+    it("rejects a string that's shorter than 32 characters", () => {
+        const expectedDescription = "input string is wrong length; must be 32";
+        let actualDescription = "";
+
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            actualDescription = description;
+            throw extra;
+        }
+        const inputValue = "this is a short string";
+
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
+        expect(actualDescription).toEqual(expectedDescription);
+    });
+
+    it("rejects a string that's longer than 32 characters", () => {
+        const expectedDescription = "input string is wrong length; must be 32";
+        let actualDescription = "";
+
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            actualDescription = description;
+            throw extra;
+        }
+        const inputValue = "this is a long string that's definitely longer than a UUID is";
+
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
+        expect(actualDescription).toEqual(expectedDescription);
     });
 });

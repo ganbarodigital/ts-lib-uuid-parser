@@ -2,6 +2,12 @@
 
 ## develop
 
+### Backwards-Compatibility Break
+
+* `Uuid` is now a branded string. No longer a class / value object.
+* `mustBeUuid()` is now `mustBeUuidData()`
+* `mustBeUuidWithOnError()` has been removed; use `mustBeUuidData()` instead
+
 ### New
 
 * Added automatic to-string conversion of Uuids.

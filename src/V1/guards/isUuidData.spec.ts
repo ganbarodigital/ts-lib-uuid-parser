@@ -31,7 +31,8 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidData, Uuid } from "..";
+import { uuidFromFormatted } from "../transforms/formatted";
+import { isUuidData } from "./isUuidData";
 
 describe("isUuidData()", () => {
 
@@ -44,7 +45,7 @@ describe("isUuidData()", () => {
     });
 
     it("accepts a type-safe UUID object", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
         const expectedValue = true;
         const actualValue = isUuidData(inputValue);
 

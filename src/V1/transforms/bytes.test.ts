@@ -31,23 +31,22 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidString } from "..";
+import { uuidToBytes } from "./bytes";
+import { uuidFromFormatted } from "./formatted";
 
-describe("isUuidString()", () => {
+// tslint:disable-next-line: no-var-requires
+const { expect } = require("chai")
+  // tslint:disable-next-line: no-var-requires
+  .use(require("chai-bytes"));
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = true;
-        const actualValue = isUuidString(inputValue);
+describe("uuidToBytes()", () => {
 
-        expect(actualValue).toBe(expectedValue);
-    });
+    it("accepts a UUID object", () => {
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
 
-    it("rejects a badly-formatted UUID string", () => {
-        const inputValue = "123e4567e89b12d3a456426655440000";
-        const expectedValue = false;
-        const actualValue = isUuidString(inputValue);
+        const actualValue = uuidToBytes(inputValue);
 
-        expect(actualValue).toBe(expectedValue);
+        expect(actualValue).to.equalBytes(expectedValue);
     });
 });

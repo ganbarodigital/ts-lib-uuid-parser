@@ -6,6 +6,23 @@ This TypeScript library will take any [RFC 4122 UUID](http://www.ietf.org/rfc/rf
 
 The library also offers a `Uuid` type, and a useful validation function.
 
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [V1 API](#v1-api)
+  - [Uuid()](#uuid)
+  - [Uuid Automatic String Conversion](#uuid-automatic-string-conversion)
+  - [isUuidData()](#isuuiddata)
+  - [mustBeUuidData()](#mustbeuuiddata)
+  - [uuidFromBytes()](#uuidfrombytes)
+  - [uuidToBytes()](#uuidtobytes)
+  - [uuidFromFormatted()](#uuidfromformatted)
+  - [uuidFromUnformatted()](#uuidfromunformatted)
+- [NPM Scripts](#npm-scripts)
+  - [npm run clean](#npm-run-clean)
+  - [npm run build](#npm-run-build)
+  - [npm run test](#npm-run-test)
+  - [npm run cover](#npm-run-cover)
+
 ## Quick Start
 
 ```
@@ -25,45 +42,46 @@ __VS Code users:__ once you've added a single import anywhere in your project, y
 ### Uuid()
 
 ```typescript
-class Uuid {
-    public readonly hex: string;
+import { Branded } from "@ganbarodigital/ts-lib-value-objects/V1";
 
-    constructor(uuid: string);
-}
+/**
+ * A type-safe representation of a UUID / GUID
+ */
+export type Uuid = Branded<string, "uuid">;
 ```
 
-`Uuid` is a _type_. It represents a validated RFC 4122 UUID. The human-readable hex format is stored internally, and is available via the `.hex` property.
+`Uuid` is a _branded type_. It represents a validated RFC 4122 UUID.
 
 For example:
 
 ```typescript
-import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1";
+import { uuidFromFormatted } from "@ganbarodigital/ts-uuid-parser/V1";
 
 // creates a new Uuid
-const myUuid = new Uuid("9c47cb7c-9793-4944-9189-61a938d0e9bd");
+const myUuid = uuidFromFormatted("9c47cb7c-9793-4944-9189-61a938d0e9bd");
 ```
 
 ### Uuid Automatic String Conversion
+
+At runtime, `Uuid` is just a string. You can use it anywhere you'd normally use a string.
 
 ```typescript
 import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1";
 
 // creates a new Uuid
-const myUuid = new Uuid("9c47cb7c-9793-4944-9189-61a938d0e9bd");
+const myUuid = uuidFromFormatted("9c47cb7c-9793-4944-9189-61a938d0e9bd");
 
 // outputs the string "9c47cb7c-9793-4944-9189-61a938d0e9bd"
 console.log(myUuid);
 ```
 
-Javascript will automatically convert a `Uuid` to a string, when you use any `Uuid` in a string context.
-
 ### isUuidData()
 
 ```typescript
-function isUuidData(input: Uuid|string): boolean
+function isUuidData(input: string): boolean
 ```
 
-`isUuidData()` is a _data guard_. It returns `true` if the input is a UUID that this library can work with.
+`isUuidData()` is a _data guard_. It returns `true` if the input string contains a well-formatted UUID.
 
 For example:
 
@@ -75,104 +93,18 @@ if (!isUuidData("12345-67890")) {
 }
 ```
 
-### isUuidString()
+### mustBeUuidData()
 
 ```typescript
-function isUuidString(input: string): boolean
+export function mustBeUuidData(input: string, onError?: OnError<InvalidUuidError>): void
 ```
 
-`isUuidString()` is a _data guard_. It returns `true` if the input is a well-formatted UUID.
-
-For example:
-
-```typescript
-import { isUuidString } from "@ganbarodigital/ts-uuid-parser/V1";
-
-if (!isUuidString("12345-67890")) {
-    throw new Error("UUID is not well-formatted; cannot use");
-}
-```
-
-### isUuidType()
-
-```typescript
-function isUuidType(input: any): input is Uuid
-```
-
-`isUuidType()` is a _type guard_. Use it to prove to the TypeScript compiler that you're working with a `Uuid` type.
-
-For example:
-
-```typescript
-import { Uuid, isUuid } from "@ganbarodigital/ts-uuid-parser/V1";
-
-function shortenUuid(input: Uuid|string): string {
-    let uuid: Uuid;
-
-    if (isUuid(input)) {
-        // at this point, the compiler knows that `input` is a Uuid
-        uuid = input;
-    } else {
-        // at this point, the compiler knows that `input` is a string
-        uuid = Uuid(input);
-    }
-
-    // ...
-}
-```
-
-### mustBeUuid()
-
-```typescript
-function mustBeUuid(input: Uuid|string): void
-```
-
-`mustBeUuid()` is a _data guarantee_. It throws an `InvalidUuidError` if the input isn't an acceptable UUID.
-
-For example:
-
-```typescript
-export class Uuid {
-    public readonly hex: string;
-
-    constructor(uuid: string) {
-        mustBeUuid(uuid);
-        this.hex = uuid;
-    }
-}
-```
-
-`mustBeUuid()` is a wrapper around [`mustBeUuidWithOnError()`](#mustbeuuidwithonerror).
-
-### mustBeUuidWithOnError()
-
-```typescript
-function mustBeUuidWithOnError(input: Uuid|string, onError: OnError<InvalidUuidError>): void
-```
-
-`mustBeUuidWithOnError()` is a _data guarantee_ with _delegated error handling_. It calls the provided `onError()` with an `IllegalUuidError` if the input isn't an acceptable UUID.
-
-For example, here's the error handler that `mustBeUuid()` defines internally:
-
-```typescript
-// OnError is a function signature
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
-
-// this function:
-//
-// * expects `extra` to be an `InvalidUuidError` (no need for a type guard)
-// * has a return type of `never`, so it MUST throw an error
-const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
-```
-
-Most of the time, you'll use `mustBeUuid()` instead. But this is here, if you need control over what happens when an error occurs.
+`mustBeUuidData()` is a _data guarantee_. It throws an `InvalidUuidError` if the input isn't an acceptable UUID.
 
 ### uuidFromBytes()
 
 ```typescript
-function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid
+export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid
 ```
 
 `uuidFromBytes()` is a _data transform_. It builds a human-readable UUID from a `Buffer`, reading from offset `0`. It returns the resulting `Uuid` value.
@@ -184,8 +116,7 @@ The default `onError` handler is `throwInvalidUuidError()`.
 ### uuidToBytes()
 
 ```typescript
-function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer
-
+export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer
 ```
 
 `uuidToBytes()` is a _data transform_. It converts a human-readable UUID into bytes, and writes those bytes into the `target` `Buffer`, starting at offset `0`.
@@ -193,6 +124,32 @@ function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer
 If you do not provide a `target` `Buffer` to write to, `uuidToBytes()` will allocate one for you.
 
 The return value is the `Buffer` that has been written to.
+
+### uuidFromFormatted()
+
+```typescript
+/**
+ * this is our main factory for building Uuids
+ */
+export function uuidFromFormatted(input: string, onError?: OnError<InvalidUuidError>): Uuid;
+```
+
+`uuidFromFormatted()` is a _smart constructor_. It validates that `input` contains a well-formed UUID, and returns a `Uuid` type.
+
+If the input validation fails, `uuidFromFormatted()` calls the `onError` handler. The `onError` handler must throw an `Error` of some kind.
+
+The default `onError` handler is `throwInvalidUuidError()`.
+
+### uuidFromUnformatted()
+
+```typescript
+/**
+ * converts an array of bytes into a type-safe UUID
+ */
+export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid;
+```
+
+`uuidFromUnformatted()` is a _data transform_. It converts the contents of `input` into a well-formatted UUID, and then calls `uuidFromFormatted()`.
 
 ## NPM Scripts
 

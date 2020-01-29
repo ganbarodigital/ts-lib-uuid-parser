@@ -34,21 +34,31 @@
 import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
 import { InvalidUuidError, Uuid } from "..";
+import { invalidUuidError, throwInvalidUuidError } from "../errors";
+import { uuidFromFormatted } from "./formatted";
 
 /**
  * Converts a human-readable UUID into an unformatted string
  * (i.e. with the '-' stripped out)
  */
 export function uuidToUnformatted(uuid: Uuid): string {
-    return uuid.hex.split("-").join("");
+    return uuid.split("-").join("");
 }
 
 /**
  * converts an array of bytes into a type-safe UUID
  */
 export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid {
+    // make sure we have an onError handler
+    onError = onError ?? throwInvalidUuidError;
+
+    // make sure the input string is the right length
+    if (input.length !== 32) {
+        onError(invalidUuidError, "input string is wrong length; must be 32", new InvalidUuidError(input));
+    }
+
     // ... we just need to format it
-    return new Uuid(
+    return uuidFromFormatted(
         input.substr(0, 8)
         + "-"
         + input.substr(8, 4)

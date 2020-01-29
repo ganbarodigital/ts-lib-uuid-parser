@@ -31,10 +31,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
-
-import { InvalidUuidError, throwInvalidUuidError } from "../errors";
-import { mustBeUuidWithOnError } from "../guarantees";
+import { Branded } from "@ganbarodigital/ts-lib-value-objects/V1";
 
 /**
  * length of a UUID byte-format
@@ -44,25 +41,4 @@ export const UuidByteLength = 16;
 /**
  * A type-safe representation of a UUID / GUID
  */
-export class Uuid {
-    public readonly hex: string;
-
-    constructor(uuid: string, onError?: OnError<InvalidUuidError>) {
-        // do we need to provide an error handler?
-        onError = onError ?? throwInvalidUuidError;
-
-        // guarantee that we have a valid Uuid
-        mustBeUuidWithOnError(uuid, onError);
-
-        // all done
-        this.hex = uuid;
-    }
-
-    public [Symbol.toPrimitive](hint: string) {
-        if (hint === "number") {
-            return null;
-        }
-
-        return this.hex;
-    }
-}
+export type Uuid = Branded<string, "uuid">;

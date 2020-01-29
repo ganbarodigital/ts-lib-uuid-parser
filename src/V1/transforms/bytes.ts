@@ -33,9 +33,9 @@
 //
 import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
+import { uuidFromUnformatted, uuidToUnformatted } from ".";
 import { InvalidUuidError, Uuid } from "..";
-import { UuidByteLength } from "../types";
-import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
+import { UuidByteLength } from "../types/Uuid";
 
 /**
  * Converts a human-readable UUID into an array of bytes

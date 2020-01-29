@@ -1,4 +1,3 @@
-//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -33,35 +32,18 @@
 //
 import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
-import { InvalidUuidError } from "../errors";
-import { Uuid } from "./Uuid";
+import { InvalidUuidError, invalidUuidError, throwInvalidUuidError } from "../errors/InvalidUuid";
+import { isUuidData } from "../guards/isUuidData";
 
-describe("Uuid", () => {
+/**
+ * throws an error if the given string is not a well-formatted UUID
+ */
+export function mustBeUuidData(input: string, onError?: OnError<InvalidUuidError>): void {
+    // make sure we have an error handler
+    onError = onError ?? throwInvalidUuidError;
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const actualValue = new Uuid(inputValue);
-
-        expect(actualValue).toBeInstanceOf(Uuid);
-    });
-
-    it("accepts an error handler", () => {
-        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-            throw extra;
-        };
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const actualValue = new Uuid(inputValue, onError);
-
-        expect(actualValue).toBeInstanceOf(Uuid);
-    });
-
-    it("auto-converts to a string primative", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = "this is a uuid: " + inputValue;
-        const uuid = new Uuid(inputValue);
-
-        const actualValue = "this is a uuid: " + uuid;
-
-        expect(actualValue).toEqual(expectedValue);
-    });
-});
+    // a string must contain a well-formatted UUID
+    if (!isUuidData(input)) {
+        onError(invalidUuidError, "UUID is invalid / not in RFC 4122 format", new InvalidUuidError(input));
+    }
+}
