@@ -31,42 +31,59 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { UuidByteLength } from "../types/Uuid";
-import { uuidFromBytes, uuidToBytes } from "./bytes";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+
+import { InvalidUuidError } from "../errors";
 import { uuidFromFormatted } from "./formatted";
+import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
 
-describe("uuidToBytes()", () => {
-
+describe("uuidToUnformatted()", () => {
     it("accepts a UUID object", () => {
         const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+        const expectedValue = "123e4567e89b12d3a456426655440000";
 
-        const actualValue = uuidToBytes(inputValue);
+        const actualValue = uuidToUnformatted(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
     });
-
-    it("accepts a Buffer to write to", () => {
-        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const inputBuffer = Buffer.alloc(UuidByteLength);
-        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
-
-        const actualValue = uuidToBytes(inputValue, inputBuffer);
-
-        expect(actualValue).toBe(inputBuffer);
-        expect(actualValue).toEqual(expectedValue);
-    });
-
 });
 
-describe("uuidFromBytes()", () => {
+describe("uuidFromUnformatted()", () => {
 
-    it("accepts an array of bytes", () => {
+    it("accepts a string", () => {
         const expectedValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const inputValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+        const inputValue = "123e4567e89b12d3a456426655440000";
 
-        const actualValue = uuidFromBytes(inputValue);
+        const actualValue = uuidFromUnformatted(inputValue);
 
         expect(actualValue).toEqual(expectedValue);
+    });
+
+    it("rejects a string that's shorter than 32 characters", () => {
+        const expectedDescription = "input string is wrong length; must be 32";
+        let actualDescription = "";
+
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            actualDescription = description;
+            throw extra;
+        }
+        const inputValue = "this is a short string";
+
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
+        expect(actualDescription).toEqual(expectedDescription);
+    });
+
+    it("rejects a string that's longer than 32 characters", () => {
+        const expectedDescription = "input string is wrong length; must be 32";
+        let actualDescription = "";
+
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            actualDescription = description;
+            throw extra;
+        }
+        const inputValue = "this is a long string that's definitely longer than a UUID is";
+
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
+        expect(actualDescription).toEqual(expectedDescription);
     });
 });

@@ -33,8 +33,9 @@
 //
 import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
+import { uuidFromUnformatted, uuidToUnformatted } from ".";
 import { InvalidUuidError, Uuid } from "..";
-import { UuidByteLength } from "../types";
+import { UuidByteLength } from "../types/Uuid";
 
 /**
  * Converts a human-readable UUID into an array of bytes
@@ -43,14 +44,7 @@ export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
     target = target ?? Buffer.alloc(UuidByteLength);
 
     // we can use the Buffer to do the conversion for us!
-    target.write(
-        uuid.hex.substr(0, 8)
-        + uuid.hex.substr(9, 4)
-        + uuid.hex.substr(14, 4)
-        + uuid.hex.substr(19, 4)
-        + uuid.hex.substr(24, 12),
-        "hex",
-    );
+    target.write(uuidToUnformatted(uuid), "hex");
 
     // all done
     return target;
@@ -64,16 +58,5 @@ export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>
     const unformattedHex = input.toString("hex", 0, 16);
 
     // ... we just need to format it
-    return new Uuid(
-        unformattedHex.substr(0, 8)
-        + "-"
-        + unformattedHex.substr(8, 4)
-        + "-"
-        + unformattedHex.substr(12, 4)
-        + "-"
-        + unformattedHex.substr(16, 4)
-        + "-"
-        + unformattedHex.substr(20, 12),
-        onError,
-    );
+    return uuidFromUnformatted(unformattedHex, onError);
 }

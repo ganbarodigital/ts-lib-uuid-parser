@@ -2,7 +2,21 @@
 
 ## develop
 
-# v0.1.1
+### Backwards-Compatibility Break
+
+* `Uuid` is now a branded string. No longer a class / value object.
+* `mustBeUuid()` is now `mustBeUuidData()`
+* `mustBeUuidWithOnError()` has been removed; use `mustBeUuidData()` instead
+
+### New
+
+* Added automatic to-string conversion of Uuids.
+
+### Refactor
+
+* Move conversion to/from unformatted strings into separate functions
+
+## v0.1.1
 
 Released Thursday, 2nd January 2020.
 
@@ -10,7 +24,7 @@ Released Thursday, 2nd January 2020.
 
 * Solved the problem of missing Typescript declaration files from the published package.
 
-# v0.1.0
+## v0.1.0
 
 Released Thursday, 2nd January 2020.
 

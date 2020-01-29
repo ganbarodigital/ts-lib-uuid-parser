@@ -31,23 +31,37 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { Uuid } from "..";
-import { mustBeUuid } from "./mustBeUuid";
+import { OnError } from "@ganbarodigital/ts-on-error/V1";
 
-describe("mustBeUuid()",  () => {
+import { InvalidUuidError } from "../errors";
+import { uuidFromFormatted } from "./formatted";
+
+describe("Uuid", () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        mustBeUuid(inputValue);
+        const actualValue = uuidFromFormatted(inputValue);
+
+        expect(actualValue).toBeInstanceOf(String);
     });
 
-    it("accepts a type-safe UUID object", () => {
-        const inputValue = new Uuid("123e4567-e89b-12d3-a456-426655440000");
-        mustBeUuid(inputValue);
+    it("accepts an error handler", () => {
+        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
+            throw extra;
+        };
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const actualValue = uuidFromFormatted(inputValue, onError);
+
+        expect(actualValue).toBeInstanceOf(String);
     });
 
-    it("rejects a badly-formatted UUID string",  () => {
-        const inputValue = "123e4567e89b12d3a456426655440000";
-        expect(() => {mustBeUuid(inputValue); }).toThrow();
+    it("auto-converts to a string primative", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        const expectedValue = "this is a uuid: " + inputValue;
+        const uuid = uuidFromFormatted(inputValue);
+
+        const actualValue = "this is a uuid: " + uuid;
+
+        expect(actualValue).toEqual(expectedValue);
     });
 });

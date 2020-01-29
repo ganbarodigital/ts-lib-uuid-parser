@@ -1,3 +1,4 @@
+//
 // Copyright (c) 2019-present Ganbaro Digital Ltd
 // All rights reserved.
 //
@@ -30,25 +31,43 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
 
-import { InvalidUuidError, invalidUuidError, isUuidString, isUuidType, Uuid } from "..";
+import { InvalidUuidError, Uuid } from "..";
+import { invalidUuidError, throwInvalidUuidError } from "../errors";
+import { uuidFromFormatted } from "./formatted";
 
 /**
- * calls the error handler if the given string is not a well-formatted UUID
+ * Converts a human-readable UUID into an unformatted string
+ * (i.e. with the '-' stripped out)
  */
-export function mustBeUuidWithOnError(input: Uuid|string, onError: OnError<InvalidUuidError>): void {
-    // a UUID is always valid!
-    if (isUuidType(input)) {
-        return;
+export function uuidToUnformatted(uuid: Uuid): string {
+    return uuid.split("-").join("");
+}
+
+/**
+ * converts an array of bytes into a type-safe UUID
+ */
+export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid {
+    // make sure we have an onError handler
+    onError = onError ?? throwInvalidUuidError;
+
+    // make sure the input string is the right length
+    if (input.length !== 32) {
+        onError(invalidUuidError, "input string is wrong length; must be 32", new InvalidUuidError(input));
     }
 
-    // a string must contain a well-formatted UUID
-    if (isUuidString(input)) {
-        return;
-    }
-
-    // if we get here, the UUID is not valid, and we will delegate
-    // error handling to the caller
-    onError(invalidUuidError, "UUID is invalid / not in RFC 4122 format", new InvalidUuidError(input));
+    // ... we just need to format it
+    return uuidFromFormatted(
+        input.substr(0, 8)
+        + "-"
+        + input.substr(8, 4)
+        + "-"
+        + input.substr(12, 4)
+        + "-"
+        + input.substr(16, 4)
+        + "-"
+        + input.substr(20, 12),
+        onError,
+    );
 }
