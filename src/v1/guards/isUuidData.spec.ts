@@ -31,6 +31,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { expect } from "chai";
+import { describe } from "mocha";
+
 import { uuidFromFormatted } from "../transforms/formatted";
 import { isUuidData } from "./isUuidData";
 
@@ -41,7 +44,7 @@ describe("isUuidData()", () => {
         const expectedValue = true;
         const actualValue = isUuidData(inputValue);
 
-        expect(actualValue).toBe(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 
     it("accepts a type-safe UUID object", () => {
@@ -49,7 +52,7 @@ describe("isUuidData()", () => {
         const expectedValue = true;
         const actualValue = isUuidData(inputValue);
 
-        expect(actualValue).toBe(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 
     it("rejects a badly-formatted UUID string", () => {
@@ -57,6 +60,6 @@ describe("isUuidData()", () => {
         const expectedValue = false;
         const actualValue = isUuidData(inputValue);
 
-        expect(actualValue).toBe(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 });

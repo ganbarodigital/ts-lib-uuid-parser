@@ -32,23 +32,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import { THROW_THE_ERROR } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+import { expect } from "chai";
+import { describe } from "mocha";
 
 import { uuidFromFormatted } from "./formatted";
 
-describe("Uuid", () => {
+describe("uuidFromFormatted()", () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
         const actualValue = uuidFromFormatted(inputValue);
 
-        expect(actualValue).toBeInstanceOf(String);
+        expect(actualValue).to.be.a("string");
     });
 
     it("accepts an error handler", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
         const actualValue = uuidFromFormatted(inputValue, THROW_THE_ERROR);
 
-        expect(actualValue).toBeInstanceOf(String);
+        expect(actualValue).to.be.a("string");
     });
 
     it("auto-converts to a string primative", () => {
@@ -58,6 +60,6 @@ describe("Uuid", () => {
 
         const actualValue = "this is a uuid: " + uuid;
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 });

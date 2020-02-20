@@ -31,6 +31,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { expect } from "chai";
+import { describe } from "mocha";
+
 import { mustBeUuidData } from "./mustBeUuidData";
 
 describe("mustBeUuid()",  () => {
@@ -42,6 +45,6 @@ describe("mustBeUuid()",  () => {
 
     it("rejects a badly-formatted UUID string",  () => {
         const inputValue = "123e4567e89b12d3a456426655440000";
-        expect(() => {mustBeUuidData(inputValue); }).toThrow();
+        expect(() => {mustBeUuidData(inputValue); }).to.throw();
     });
 });

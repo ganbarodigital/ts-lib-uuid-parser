@@ -31,9 +31,16 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { describe } from "mocha";
+
 import { UuidByteLength } from "../types/Uuid";
 import { uuidFromBytes, uuidToBytes } from "./bytes";
 import { uuidFromFormatted } from "./formatted";
+
+// tslint:disable-next-line: no-var-requires
+const { expect } = require("chai")
+  // tslint:disable-next-line: no-var-requires
+  .use(require("chai-bytes"));
 
 describe("uuidToBytes()", () => {
 
@@ -43,7 +50,7 @@ describe("uuidToBytes()", () => {
 
         const actualValue = uuidToBytes(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equalBytes(expectedValue);
     });
 
     it("accepts a Buffer to write to", () => {
@@ -53,8 +60,8 @@ describe("uuidToBytes()", () => {
 
         const actualValue = uuidToBytes(inputValue, inputBuffer);
 
-        expect(actualValue).toBe(inputBuffer);
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(inputBuffer);
+        expect(actualValue).to.equalBytes(expectedValue);
     });
 
 });
@@ -67,6 +74,6 @@ describe("uuidFromBytes()", () => {
 
         const actualValue = uuidFromBytes(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 });

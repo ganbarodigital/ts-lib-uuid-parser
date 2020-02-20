@@ -32,6 +32,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+import { expect } from "chai";
+import { describe } from "mocha";
 
 import { uuidFromFormatted } from "./formatted";
 import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
@@ -43,7 +45,7 @@ describe("uuidToUnformatted()", () => {
 
         const actualValue = uuidToUnformatted(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 });
 
@@ -55,7 +57,7 @@ describe("uuidFromUnformatted()", () => {
 
         const actualValue = uuidFromUnformatted(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 
     it("rejects a string that's shorter than 32 characters", () => {
@@ -68,8 +70,8 @@ describe("uuidFromUnformatted()", () => {
         };
         const inputValue = "this is a short string";
 
-        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
-        expect(actualDescription).toEqual(expectedDescription);
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).to.throw();
+        expect(actualDescription).to.equal(expectedDescription);
     });
 
     it("rejects a string that's longer than 32 characters", () => {
@@ -82,7 +84,7 @@ describe("uuidFromUnformatted()", () => {
         };
         const inputValue = "this is a long string that's definitely longer than a UUID is";
 
-        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
-        expect(actualDescription).toEqual(expectedDescription);
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).to.throw();
+        expect(actualDescription).to.equal(expectedDescription);
     });
 });

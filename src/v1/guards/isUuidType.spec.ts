@@ -31,18 +31,21 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
+import { expect } from "chai";
+import { describe } from "mocha";
+
 import { isUuidType } from "..";
 import { uuidFromFormatted } from "../transforms";
 
 describe("isUuidType()", () => {
     it("accepts a Uuid type", () => {
         const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        expect(isUuidType(inputValue)).toBeTrue();
+        expect(isUuidType(inputValue)).to.equal(true);
     });
 
     it("accepts strings", () => {
         const inputValue = "this is an arbitrary string";
-        expect(isUuidType(inputValue)).toBeTrue();
+        expect(isUuidType(inputValue)).to.equal(true);
     });
 
     const rejectionData = [
@@ -51,12 +54,12 @@ describe("isUuidType()", () => {
         [ "boolean (true)", true ],
         [ "floats", 0.1 ],
         [ "integers", 5 ],
-    ]
+    ];
 
     for (const dataSet of rejectionData) {
         it("rejects " + dataSet[0], () => {
             const inputValue = dataSet[1];
-            expect(isUuidType(inputValue)).toBeFalse();
+            expect(isUuidType(inputValue)).to.equal(false);
         });
     }
 });
