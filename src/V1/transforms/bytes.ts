@@ -31,10 +31,10 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+import { OnError, THROW_THE_ERROR } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
 import { uuidFromUnformatted, uuidToUnformatted } from ".";
-import { InvalidUuidError, Uuid } from "..";
+import { Uuid } from "..";
 import { UuidByteLength } from "../types/Uuid";
 
 /**
@@ -53,7 +53,7 @@ export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
+export function uuidFromBytes(input: Buffer, onError: OnError = THROW_THE_ERROR): Uuid {
     // the Buffer will give us the raw hex ...
     const unformattedHex = input.toString("hex", 0, 16);
 

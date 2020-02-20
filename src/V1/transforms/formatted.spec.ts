@@ -31,9 +31,8 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { THROW_THE_ERROR } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
-import { InvalidUuidError } from "../errors";
 import { uuidFromFormatted } from "./formatted";
 
 describe("Uuid", () => {
@@ -46,11 +45,8 @@ describe("Uuid", () => {
     });
 
     it("accepts an error handler", () => {
-        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-            throw extra;
-        };
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const actualValue = uuidFromFormatted(inputValue, onError);
+        const actualValue = uuidFromFormatted(inputValue, THROW_THE_ERROR);
 
         expect(actualValue).toBeInstanceOf(String);
     });

@@ -31,34 +31,62 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import {
+    AppError,
+    AppErrorParams,
+    ErrorTableTemplateWithExtraData,
+    ExtraPublicData,
+    PackageErrorTable,
+    StructuredProblemReport,
+    StructuredProblemReportDataWithExtraData,
+} from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
+import { ERROR_TABLE } from "./PackageErrorTable";
 
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
+interface InvalidUuidExtraData extends ExtraPublicData {
+    public: {
+        invalidInput: string;
+    };
 }
 
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+export type InvalidUuidTemplate = ErrorTableTemplateWithExtraData<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidExtraData
+>;
 
-    if (input.invalidInput === undefined) {
-        return false;
-    }
+type InvalidUuidData = StructuredProblemReportDataWithExtraData<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData
+>;
 
-    return true;
+type InvalidUuidSPR = StructuredProblemReport<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData,
+    InvalidUuidData
+>;
+
+export class InvalidUuidError extends AppError<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData,
+    InvalidUuidData,
+    InvalidUuidSPR
+> {
+    public constructor(params: InvalidUuidExtraData & AppErrorParams) {
+        const errorData: InvalidUuidData = {
+            template: ERROR_TABLE["invalid-uuid"],
+            errorId: params.errorId,
+            extra: {
+                public: params.public,
+            },
+        };
+
+        super(StructuredProblemReport.from(errorData));
+    }
 }
-
-/**
- * identifies an error condition
- */
-export const invalidUuidError = Symbol("Invalid UUID");
-
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};

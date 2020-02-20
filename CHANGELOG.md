@@ -2,6 +2,10 @@
 
 ## develop
 
+### Backwards-Compatibility Break
+
+* Error reporting has switched over to `@ganbarodigital/ts-lib-error-reporting`
+
 ## v0.2.0
 
 Released Wednesday, 29th January 2020.

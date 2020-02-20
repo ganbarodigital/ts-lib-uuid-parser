@@ -31,10 +31,10 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { makeRefinedTypeFactory } from "@ganbarodigital/ts-lib-value-objects/lib/V1";
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+import { makeRefinedTypeFactory } from "@ganbarodigital/ts-lib-value-objects/lib/v2";
 
-import { InvalidUuidError, throwInvalidUuidError } from "../errors";
+import { InvalidUuidError } from "../errors";
 import { mustBeUuidData } from "../guarantees";
 import { Uuid } from "../types";
 
@@ -43,4 +43,4 @@ type UuidBuilder = (input: string, onError?: OnError<InvalidUuidError>) => Uuid;
 /**
  * this is our main factory for building Uuids
  */
-export const uuidFromFormatted: UuidBuilder = makeRefinedTypeFactory(mustBeUuidData, throwInvalidUuidError);
+export const uuidFromFormatted: UuidBuilder = makeRefinedTypeFactory(mustBeUuidData);

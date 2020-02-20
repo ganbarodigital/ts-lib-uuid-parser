@@ -31,10 +31,9 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+import { OnError, THROW_THE_ERROR } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
 import { InvalidUuidError, Uuid } from "..";
-import { invalidUuidError, throwInvalidUuidError } from "../errors";
 import { uuidFromFormatted } from "./formatted";
 
 /**
@@ -48,13 +47,10 @@ export function uuidToUnformatted(uuid: Uuid): string {
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid {
-    // make sure we have an onError handler
-    onError = onError ?? throwInvalidUuidError;
-
+export function uuidFromUnformatted(input: string, onError: OnError = THROW_THE_ERROR): Uuid {
     // make sure the input string is the right length
     if (input.length !== 32) {
-        onError(invalidUuidError, "input string is wrong length; must be 32", new InvalidUuidError(input));
+        onError(new InvalidUuidError({public: { invalidInput: input}}));
     }
 
     // ... we just need to format it
