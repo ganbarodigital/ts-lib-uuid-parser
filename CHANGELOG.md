@@ -5,6 +5,7 @@
 ### Backwards-Compatibility Break
 
 * Error reporting has switched over to `@ganbarodigital/ts-lib-error-reporting`
+* We now export `lib/v1`, not `V1`
 
 ## v0.2.0
 

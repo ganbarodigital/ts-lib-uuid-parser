@@ -32,7 +32,7 @@ npm install @ganbarodigital/ts-uuid-parser
 
 ```typescript
 // add this import to your Typescript code
-import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1"
+import { Uuid } from "@ganbarodigital/ts-uuid-parser/lib/v1"
 ```
 
 __VS Code users:__ once you've added a single import anywhere in your project, you'll then be able to auto-import anything else that this library exports.
@@ -42,7 +42,7 @@ __VS Code users:__ once you've added a single import anywhere in your project, y
 ### Uuid()
 
 ```typescript
-import { Branded } from "@ganbarodigital/ts-lib-value-objects/V1";
+import { Branded } from "@ganbarodigital/ts-lib-value-objects/lib/v2";
 
 /**
  * A type-safe representation of a UUID / GUID
@@ -55,7 +55,7 @@ export type Uuid = Branded<string, "uuid">;
 For example:
 
 ```typescript
-import { uuidFromFormatted } from "@ganbarodigital/ts-uuid-parser/V1";
+import { uuidFromFormatted } from "@ganbarodigital/ts-uuid-parser/lib/v1";
 
 // creates a new Uuid
 const myUuid = uuidFromFormatted("9c47cb7c-9793-4944-9189-61a938d0e9bd");
@@ -66,7 +66,7 @@ const myUuid = uuidFromFormatted("9c47cb7c-9793-4944-9189-61a938d0e9bd");
 At runtime, `Uuid` is just a string. You can use it anywhere you'd normally use a string.
 
 ```typescript
-import { Uuid } from "@ganbarodigital/ts-uuid-parser/V1";
+import { Uuid } from "@ganbarodigital/ts-uuid-parser/lib/v1";
 
 // creates a new Uuid
 const myUuid = uuidFromFormatted("9c47cb7c-9793-4944-9189-61a938d0e9bd");
@@ -86,7 +86,7 @@ function isUuidData(input: string): boolean
 For example:
 
 ```typescript
-import { isUuidData } from "@ganbarodigital/ts-uuid-parser/V1";
+import { isUuidData } from "@ganbarodigital/ts-uuid-parser/lib/v1";
 
 if (!isUuidData("12345-67890")) {
     throw new Error("invalid UUID");
@@ -96,7 +96,9 @@ if (!isUuidData("12345-67890")) {
 ### mustBeUuidData()
 
 ```typescript
-export function mustBeUuidData(input: string, onError?: OnError<InvalidUuidError>): void
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+
+export function mustBeUuidData(input: string, onError?: OnError): void
 ```
 
 `mustBeUuidData()` is a _data guarantee_. It throws an `InvalidUuidError` if the input isn't an acceptable UUID.
@@ -104,14 +106,14 @@ export function mustBeUuidData(input: string, onError?: OnError<InvalidUuidError
 ### uuidFromBytes()
 
 ```typescript
-export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+
+export function uuidFromBytes(input: Buffer, onError?: OnError): Uuid
 ```
 
 `uuidFromBytes()` is a _data transform_. It builds a human-readable UUID from a `Buffer`, reading from offset `0`. It returns the resulting `Uuid` value.
 
 If the resulting string isn't a valid UUID, the `onError` handler is called.
-
-The default `onError` handler is `throwInvalidUuidError()`.
 
 ### uuidToBytes()
 
@@ -128,25 +130,27 @@ The return value is the `Buffer` that has been written to.
 ### uuidFromFormatted()
 
 ```typescript
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+
 /**
  * this is our main factory for building Uuids
  */
-export function uuidFromFormatted(input: string, onError?: OnError<InvalidUuidError>): Uuid;
+export function uuidFromFormatted(input: string, onError?: OnError): Uuid;
 ```
 
 `uuidFromFormatted()` is a _smart constructor_. It validates that `input` contains a well-formed UUID, and returns a `Uuid` type.
 
 If the input validation fails, `uuidFromFormatted()` calls the `onError` handler. The `onError` handler must throw an `Error` of some kind.
 
-The default `onError` handler is `throwInvalidUuidError()`.
-
 ### uuidFromUnformatted()
 
 ```typescript
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+
 /**
  * converts an array of bytes into a type-safe UUID
  */
-export function uuidFromUnformatted(input: string, onError?: OnError<InvalidUuidError>): Uuid;
+export function uuidFromUnformatted(input: string, onError?: OnError): Uuid;
 ```
 
 `uuidFromUnformatted()` is a _data transform_. It converts the contents of `input` into a well-formatted UUID, and then calls `uuidFromFormatted()`.
