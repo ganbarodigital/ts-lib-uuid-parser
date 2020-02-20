@@ -1,8 +1,8 @@
 {
-  "name": "@ganbarodigital/ts-uuid-parser",
+  "name": "@ganbarodigital/ts-lib-uuid-parser",
   "version": "0.2.0",
   "description": "Converts human-readable UUIDs to bytes",
-  "repository": "github:ganbarodigital/ts-uuid-parser",
+  "repository": "github:ganbarodigital/ts-lib-uuid-parser",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
