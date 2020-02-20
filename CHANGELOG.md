@@ -2,6 +2,19 @@
 
 ## develop
 
+## v0.3.0
+
+Released Thursday, 20th February 2020.
+
+### Backwards-Compatibility Break
+
+* Error reporting has switched over to `@ganbarodigital/ts-lib-error-reporting`
+* We now export `lib/v1`, not `V1`
+
+### Tests
+
+* Switched from `jasmine` to `mocha` and `chai`
+
 ## v0.2.0
 
 Released Wednesday, 29th January 2020.

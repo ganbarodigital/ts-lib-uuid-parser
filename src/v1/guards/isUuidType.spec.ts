@@ -31,32 +31,35 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { uuidFromFormatted } from "../transforms/formatted";
-import { isUuidData } from "./isUuidData";
+import { expect } from "chai";
+import { describe } from "mocha";
 
-describe("isUuidData()", () => {
+import { isUuidType } from "..";
+import { uuidFromFormatted } from "../transforms";
 
-    it("accepts a well-formatted UUID string", () => {
-        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        const expectedValue = true;
-        const actualValue = isUuidData(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
-    });
-
-    it("accepts a type-safe UUID object", () => {
+describe("isUuidType()", () => {
+    it("accepts a Uuid type", () => {
         const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const expectedValue = true;
-        const actualValue = isUuidData(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
+        expect(isUuidType(inputValue)).to.equal(true);
     });
 
-    it("rejects a badly-formatted UUID string", () => {
-        const inputValue = "123e4567e89b12d3a456426655440000";
-        const expectedValue = false;
-        const actualValue = isUuidData(inputValue);
-
-        expect(actualValue).toBe(expectedValue);
+    it("accepts strings", () => {
+        const inputValue = "this is an arbitrary string";
+        expect(isUuidType(inputValue)).to.equal(true);
     });
+
+    const rejectionData = [
+        [ "objects", {} ],
+        [ "boolean (false)", false ],
+        [ "boolean (true)", true ],
+        [ "floats", 0.1 ],
+        [ "integers", 5 ],
+    ];
+
+    for (const dataSet of rejectionData) {
+        it("rejects " + dataSet[0], () => {
+            const inputValue = dataSet[1];
+            expect(isUuidType(inputValue)).to.equal(false);
+        });
+    }
 });

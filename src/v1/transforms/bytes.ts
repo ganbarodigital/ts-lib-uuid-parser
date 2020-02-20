@@ -31,34 +31,32 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/V1";
+import { OnError, THROW_THE_ERROR } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
-export class InvalidUuidError {
-    public readonly invalidInput: string;
+import { uuidFromUnformatted, uuidToUnformatted } from ".";
+import { Uuid } from "..";
+import { UuidByteLength } from "../types/Uuid";
 
-    constructor(invalidInput: string) {
-        this.invalidInput = invalidInput;
-    }
-}
+/**
+ * Converts a human-readable UUID into an array of bytes
+ */
+export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
+    target = target ?? Buffer.alloc(UuidByteLength);
 
-export function isInvalidUuidError(input: any): input is InvalidUuidError {
-    if (typeof(input) !== "object") {
-        return false;
-    }
+    // we can use the Buffer to do the conversion for us!
+    target.write(uuidToUnformatted(uuid), "hex");
 
-    if (input.invalidInput === undefined) {
-        return false;
-    }
-
-    return true;
+    // all done
+    return target;
 }
 
 /**
- * identifies an error condition
+ * converts an array of bytes into a type-safe UUID
  */
-export const invalidUuidError = Symbol("Invalid UUID");
+export function uuidFromBytes(input: Buffer, onError: OnError = THROW_THE_ERROR): Uuid {
+    // the Buffer will give us the raw hex ...
+    const unformattedHex = input.toString("hex", 0, 16);
 
-// we need an error handler for dealing with invalid UUIDs
-export const throwInvalidUuidError: OnError<InvalidUuidError> = (reason, description, extra) => {
-    throw extra;
-};
+    // ... we just need to format it
+    return uuidFromUnformatted(unformattedHex, onError);
+}

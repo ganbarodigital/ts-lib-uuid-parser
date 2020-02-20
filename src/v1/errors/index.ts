@@ -31,42 +31,5 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { UuidByteLength } from "../types/Uuid";
-import { uuidFromBytes, uuidToBytes } from "./bytes";
-import { uuidFromFormatted } from "./formatted";
-
-describe("uuidToBytes()", () => {
-
-    it("accepts a UUID object", () => {
-        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
-
-        const actualValue = uuidToBytes(inputValue);
-
-        expect(actualValue).toEqual(expectedValue);
-    });
-
-    it("accepts a Buffer to write to", () => {
-        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const inputBuffer = Buffer.alloc(UuidByteLength);
-        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
-
-        const actualValue = uuidToBytes(inputValue, inputBuffer);
-
-        expect(actualValue).toBe(inputBuffer);
-        expect(actualValue).toEqual(expectedValue);
-    });
-
-});
-
-describe("uuidFromBytes()", () => {
-
-    it("accepts an array of bytes", () => {
-        const expectedValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        const inputValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
-
-        const actualValue = uuidFromBytes(inputValue);
-
-        expect(actualValue).toEqual(expectedValue);
-    });
-});
+export * from "./PackageErrorTable";
+export * from "./InvalidUuid";

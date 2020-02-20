@@ -31,32 +31,62 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+import {
+    AppError,
+    AppErrorParams,
+    ErrorTableTemplateWithExtraData,
+    ExtraPublicData,
+    PackageErrorTable,
+    StructuredProblemReport,
+    StructuredProblemReportDataWithExtraData,
+} from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
 
-import { uuidFromUnformatted, uuidToUnformatted } from ".";
-import { InvalidUuidError, Uuid } from "..";
-import { UuidByteLength } from "../types/Uuid";
+import { ERROR_TABLE } from "./PackageErrorTable";
 
-/**
- * Converts a human-readable UUID into an array of bytes
- */
-export function uuidToBytes(uuid: Uuid, target?: Buffer): Buffer {
-    target = target ?? Buffer.alloc(UuidByteLength);
-
-    // we can use the Buffer to do the conversion for us!
-    target.write(uuidToUnformatted(uuid), "hex");
-
-    // all done
-    return target;
+interface InvalidUuidExtraData extends ExtraPublicData {
+    public: {
+        invalidInput: string;
+    };
 }
 
-/**
- * converts an array of bytes into a type-safe UUID
- */
-export function uuidFromBytes(input: Buffer, onError?: OnError<InvalidUuidError>): Uuid {
-    // the Buffer will give us the raw hex ...
-    const unformattedHex = input.toString("hex", 0, 16);
+export type InvalidUuidTemplate = ErrorTableTemplateWithExtraData<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidExtraData
+>;
 
-    // ... we just need to format it
-    return uuidFromUnformatted(unformattedHex, onError);
+type InvalidUuidData = StructuredProblemReportDataWithExtraData<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData
+>;
+
+type InvalidUuidSPR = StructuredProblemReport<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData,
+    InvalidUuidData
+>;
+
+export class InvalidUuidError extends AppError<
+    PackageErrorTable,
+    "invalid-uuid",
+    InvalidUuidTemplate,
+    InvalidUuidExtraData,
+    InvalidUuidData,
+    InvalidUuidSPR
+> {
+    public constructor(params: InvalidUuidExtraData & AppErrorParams) {
+        const errorData: InvalidUuidData = {
+            template: ERROR_TABLE["invalid-uuid"],
+            errorId: params.errorId,
+            extra: {
+                public: params.public,
+            },
+        };
+
+        super(StructuredProblemReport.from(errorData));
+    }
 }

@@ -1,16 +1,16 @@
 {
-  "name": "@ganbarodigital/ts-uuid-parser",
-  "version": "0.2.0",
+  "name": "@ganbarodigital/ts-lib-uuid-parser",
+  "version": "0.3.0",
   "description": "Converts human-readable UUIDs to bytes",
-  "repository": "github:ganbarodigital/ts-uuid-parser",
+  "repository": "github:ganbarodigital/ts-lib-uuid-parser",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "npm run clean && tsc -p ./tsconfig.json",
-    "lint": "tslint -p ./tsconfig.json",
+    "build": "npm run clean && tsc",
+    "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
     "prepack": "npm run build",
-    "test": "npm run clean && tsc -p ./tsconfig-test.json && jasmine --require=ts-node/register --config=\"src/spec/support/jasmine.json\" \"src/**/*.spec.ts\"",
+    "test": "npm run clean && tsc && mocha -r ts-node/register \"src/**/*.spec.ts\"",
     "cover": "rimraf coverage && rimraf .nyc_output && nyc --cache=false npm run test",
     "clean": "rimraf lib"
   },
@@ -28,19 +28,22 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@ganbarodigital/ts-lib-value-objects": "^1.0.0",
-    "@ganbarodigital/ts-on-error": "0.0.2",
-    "@types/node": "^13.1.8",
+    "@ganbarodigital/ts-lib-error-reporting": "^0.2.1",
+    "@ganbarodigital/ts-lib-http-types": "^0.1.5",
+    "@ganbarodigital/ts-lib-packagename": "^0.2.3",
+    "@ganbarodigital/ts-lib-value-objects": "^1.1.1",
+    "@types/node": "^13.7.4",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   },
   "devDependencies": {
-    "@ganbarodigital/jasmine-ts": "file:../jasmine-ts",
-    "@types/jasmine": "^3.5.1",
-    "jasmine": "^3.5.0",
-    "jasmine-ts-console-reporter": "^3.1.1",
+    "@types/chai": "^4.2.9",
+    "@types/mocha": "^7.0.1",
+    "chai": "^4.2.0",
+    "chai-bytes": "^0.1.2",
+    "mocha": "^7.0.1",
     "nyc": "^15.0.0",
-    "rimraf": "^3.0.0",
-    "ts-node": "^8.6.2"
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.0.0"
   }
 }

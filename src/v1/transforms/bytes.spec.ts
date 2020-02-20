@@ -31,32 +31,49 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { isUuidType } from "..";
-import { uuidFromFormatted } from "../transforms";
+import { describe } from "mocha";
 
-describe("isUuidType()", () => {
-    it("accepts a Uuid type", () => {
+import { UuidByteLength } from "../types/Uuid";
+import { uuidFromBytes, uuidToBytes } from "./bytes";
+import { uuidFromFormatted } from "./formatted";
+
+// tslint:disable-next-line: no-var-requires
+const { expect } = require("chai")
+  // tslint:disable-next-line: no-var-requires
+  .use(require("chai-bytes"));
+
+describe("uuidToBytes()", () => {
+
+    it("accepts a UUID object", () => {
         const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
-        expect(isUuidType(inputValue)).toBeTrue();
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidToBytes(inputValue);
+
+        expect(actualValue).to.equalBytes(expectedValue);
     });
 
-    it("accepts strings", () => {
-        const inputValue = "this is an arbitrary string";
-        expect(isUuidType(inputValue)).toBeTrue();
+    it("accepts a Buffer to write to", () => {
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
+        const inputBuffer = Buffer.alloc(UuidByteLength);
+        const expectedValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidToBytes(inputValue, inputBuffer);
+
+        expect(actualValue).to.equal(inputBuffer);
+        expect(actualValue).to.equalBytes(expectedValue);
     });
 
-    const rejectionData = [
-        [ "objects", {} ],
-        [ "boolean (false)", false ],
-        [ "boolean (true)", true ],
-        [ "floats", 0.1 ],
-        [ "integers", 5 ],
-    ]
+});
 
-    for (const dataSet of rejectionData) {
-        it("rejects " + dataSet[0], () => {
-            const inputValue = dataSet[1];
-            expect(isUuidType(inputValue)).toBeFalse();
-        });
-    }
+describe("uuidFromBytes()", () => {
+
+    it("accepts an array of bytes", () => {
+        const expectedValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
+        const inputValue = Buffer.from("123e4567e89b12d3a456426655440000", "hex");
+
+        const actualValue = uuidFromBytes(inputValue);
+
+        expect(actualValue).to.equal(expectedValue);
+    });
 });

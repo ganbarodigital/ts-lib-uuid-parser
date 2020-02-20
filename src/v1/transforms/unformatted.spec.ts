@@ -31,9 +31,10 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { OnError } from "@ganbarodigital/ts-on-error/lib/V1";
+import { OnError } from "@ganbarodigital/ts-lib-error-reporting/lib/v1";
+import { expect } from "chai";
+import { describe } from "mocha";
 
-import { InvalidUuidError } from "../errors";
 import { uuidFromFormatted } from "./formatted";
 import { uuidFromUnformatted, uuidToUnformatted } from "./unformatted";
 
@@ -44,7 +45,7 @@ describe("uuidToUnformatted()", () => {
 
         const actualValue = uuidToUnformatted(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 });
 
@@ -56,34 +57,34 @@ describe("uuidFromUnformatted()", () => {
 
         const actualValue = uuidFromUnformatted(inputValue);
 
-        expect(actualValue).toEqual(expectedValue);
+        expect(actualValue).to.equal(expectedValue);
     });
 
     it("rejects a string that's shorter than 32 characters", () => {
-        const expectedDescription = "input string is wrong length; must be 32";
+        const expectedDescription = "UUID is invalid / not in RFC 4122 format";
         let actualDescription = "";
 
-        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-            actualDescription = description;
-            throw extra;
-        }
+        const onError: OnError = (e) => {
+            actualDescription = e.details.detail;
+            throw e;
+        };
         const inputValue = "this is a short string";
 
-        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
-        expect(actualDescription).toEqual(expectedDescription);
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).to.throw();
+        expect(actualDescription).to.equal(expectedDescription);
     });
 
     it("rejects a string that's longer than 32 characters", () => {
-        const expectedDescription = "input string is wrong length; must be 32";
+        const expectedDescription = "UUID is invalid / not in RFC 4122 format";
         let actualDescription = "";
 
-        const onError: OnError<InvalidUuidError> = (reason, description, extra) => {
-            actualDescription = description;
-            throw extra;
-        }
+        const onError: OnError = (e) => {
+            actualDescription = e.details.detail;
+            throw e;
+        };
         const inputValue = "this is a long string that's definitely longer than a UUID is";
 
-        expect(() => {uuidFromUnformatted(inputValue, onError); } ).toThrow();
-        expect(actualDescription).toEqual(expectedDescription);
+        expect(() => {uuidFromUnformatted(inputValue, onError); } ).to.throw();
+        expect(actualDescription).to.equal(expectedDescription);
     });
 });

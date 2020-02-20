@@ -31,17 +31,35 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-import { mustBeUuidData } from "./mustBeUuidData";
+import { expect } from "chai";
+import { describe } from "mocha";
 
-describe("mustBeUuid()",  () => {
+import { uuidFromFormatted } from "../transforms/formatted";
+import { isUuidData } from "./isUuidData";
+
+describe("isUuidData()", () => {
 
     it("accepts a well-formatted UUID string", () => {
         const inputValue = "123e4567-e89b-12d3-a456-426655440000";
-        mustBeUuidData(inputValue);
+        const expectedValue = true;
+        const actualValue = isUuidData(inputValue);
+
+        expect(actualValue).to.equal(expectedValue);
     });
 
-    it("rejects a badly-formatted UUID string",  () => {
+    it("accepts a type-safe UUID object", () => {
+        const inputValue = uuidFromFormatted("123e4567-e89b-12d3-a456-426655440000");
+        const expectedValue = true;
+        const actualValue = isUuidData(inputValue);
+
+        expect(actualValue).to.equal(expectedValue);
+    });
+
+    it("rejects a badly-formatted UUID string", () => {
         const inputValue = "123e4567e89b12d3a456426655440000";
-        expect(() => {mustBeUuidData(inputValue); }).toThrow();
+        const expectedValue = false;
+        const actualValue = isUuidData(inputValue);
+
+        expect(actualValue).to.equal(expectedValue);
     });
 });

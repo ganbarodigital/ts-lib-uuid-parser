@@ -31,4 +31,20 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-export * from "./InvalidUuid";
+import { expect } from "chai";
+import { describe } from "mocha";
+
+import { mustBeUuidData } from "./mustBeUuidData";
+
+describe("mustBeUuid()",  () => {
+
+    it("accepts a well-formatted UUID string", () => {
+        const inputValue = "123e4567-e89b-12d3-a456-426655440000";
+        mustBeUuidData(inputValue);
+    });
+
+    it("rejects a badly-formatted UUID string",  () => {
+        const inputValue = "123e4567e89b12d3a456426655440000";
+        expect(() => {mustBeUuidData(inputValue); }).to.throw();
+    });
+});
