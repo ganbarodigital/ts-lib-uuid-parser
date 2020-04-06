@@ -2,6 +2,15 @@
 
 ## develop
 
+## v0.3.1
+
+Released Monday, 6th April 2020.
+
+### Dependencies
+
+* Upgraded everything to fix a vulnerability in the `minimist` package
+* Moved TypeScript et al into the `devDependencies` section
+
 ## v0.3.0
 
 Released Thursday, 20th February 2020.
