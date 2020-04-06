@@ -4,6 +4,7 @@
 
 ### Dependencies
 
+* Upgraded everything to fix a vulnerability in the `minimist` package
 * Moved TypeScript et al into the `devDependencies` section
 
 ## v0.3.0
