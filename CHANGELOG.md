@@ -2,6 +2,10 @@
 
 ## develop
 
+### Dependencies
+
+* Moved TypeScript et al into the `devDependencies` section
+
 ## v0.3.0
 
 Released Thursday, 20th February 2020.
