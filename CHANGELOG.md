@@ -2,6 +2,10 @@
 
 ## develop
 
+## v0.3.1
+
+Released Monday, 6th April 2020.
+
 ### Dependencies
 
 * Upgraded everything to fix a vulnerability in the `minimist` package
