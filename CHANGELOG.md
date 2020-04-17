@@ -2,6 +2,10 @@
 
 ## develop
 
+### Tools
+
+* Upgraded the `scripts` section of `package.json` to the latest standard
+
 ## v0.3.1
 
 Released Monday, 6th April 2020.
