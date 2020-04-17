@@ -2,6 +2,10 @@
 
 ## develop
 
+## v0.4.0
+
+Released Friday, 17th April 2020.
+
 ### Dependencies
 
 * Upgraded to v0.3 of `@ganbarodigital/ts-lib-error-reporting`
