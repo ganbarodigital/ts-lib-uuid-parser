@@ -2,6 +2,20 @@
 
 ## develop
 
+## v0.4.0
+
+Released Friday, 17th April 2020.
+
+### Dependencies
+
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-error-reporting`
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-packagename`
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-http-types`
+
+### Tools
+
+* Upgraded the `scripts` section of `package.json` to the latest standard
+
 ## v0.3.1
 
 Released Monday, 6th April 2020.
