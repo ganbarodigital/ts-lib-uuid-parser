@@ -1,5 +1,7 @@
 # UUID Parser for Typescript
 
+![Node.js CI](https://github.com/ganbarodigital/ts-lib-uuid-parser/workflows/Node.js%20CI/badge.svg)
+
 ## Introduction
 
 This TypeScript library will take any [RFC 4122 UUID](http://www.ietf.org/rfc/rfc4122.txt), and parse it into a stream of bytes.
