@@ -2,6 +2,12 @@
 
 ## develop
 
+### Dependencies
+
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-error-reporting`
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-packagename`
+* Upgraded to v0.3 of `@ganbarodigital/ts-lib-http-types`
+
 ### Tools
 
 * Upgraded the `scripts` section of `package.json` to the latest standard

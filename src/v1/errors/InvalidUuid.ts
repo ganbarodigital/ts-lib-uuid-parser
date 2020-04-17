@@ -34,7 +34,7 @@
 import {
     AppError,
     AppErrorParams,
-    ErrorTableTemplateWithExtraData,
+    ErrorTableTemplate,
     ExtraPublicData,
     PackageErrorTable,
     StructuredProblemReport,
@@ -49,10 +49,9 @@ interface InvalidUuidExtraData extends ExtraPublicData {
     };
 }
 
-export type InvalidUuidTemplate = ErrorTableTemplateWithExtraData<
+export type InvalidUuidTemplate = ErrorTableTemplate<
     PackageErrorTable,
-    "invalid-uuid",
-    InvalidUuidExtraData
+    "invalid-uuid"
 >;
 
 type InvalidUuidData = StructuredProblemReportDataWithExtraData<
